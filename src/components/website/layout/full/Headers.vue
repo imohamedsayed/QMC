@@ -36,8 +36,8 @@
                 <v-list class="d-flex text-blue font-weight-bold header-nav">
                     <v-list-item value="landing" to="/"> {{ $t('header.home') }} </v-list-item>
                     <v-list-item value="about" to="/about-us"> {{ $t('header.about') }}</v-list-item>
-                    <v-list-item value="products" to="/products"> {{ $t('header.services') }} </v-list-item>
-                    <v-list-item value="offers" to="/offers"> {{ $t('header.process') }}</v-list-item>
+                    <v-list-item value="offers" to="/offers"> {{ $t('header.services') }}</v-list-item>
+                    <v-list-item value="process" to="/our-process"> {{ $t('header.process') }} </v-list-item>
                     <v-list-item value="clients" to="/clients"> {{ $t('header.clients') }}</v-list-item>
                     <v-list-item value="contact" to="/contact-us"> {{ $t('header.contact') }}</v-list-item>
                     <v-list-item value="blog" to="/blogs"> {{ $t('header.blog') }}</v-list-item>

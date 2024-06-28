@@ -40,7 +40,7 @@
                 </v-container>
             </v-col>
             <v-col cols="12" md="6" :class="['touch', $i18n.locale === 'AR' ? 'ar' : '']">
-                <img src="@/assets/images/landing/contact_circle.svg" alt="" />
+                <img src="@/assets/images/landing/contact_circle.svg" alt="" /> 
                 <div :class="['content', 'pl-16', $i18n.locale === 'AR' ? 'left' : 'right']">
                     <h2>{{ $t('contact_us.get_touch') }}</h2>
                     <span class="separator"></span>

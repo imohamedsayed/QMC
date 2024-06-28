@@ -23,6 +23,16 @@ const MainRoutes = {
                 enterCLass: 'animate__animated animate__fadeInRight',
                 leaveClass: 'animate__animated animate__fadeOutLeft'
             }
+        },
+        {
+            name: 'process',
+            path: '/our-process',
+            component: () => import('@/views/website/Process.vue'),
+            meta: {
+                title: 'Our Process',
+                enterCLass: 'animate__animated animate__fadeInRight',
+                leaveClass: 'animate__animated animate__fadeOutLeft'
+            }
         }
     ]
 };
