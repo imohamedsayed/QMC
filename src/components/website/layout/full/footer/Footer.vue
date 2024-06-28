@@ -1,4 +1,5 @@
 <template>
+ 
     <footer class="footer pa-4 text-center text-md-start">
         <v-row class="">
             <v-col cols="12" md="6" lg="3" class="mt-5">
@@ -58,6 +59,8 @@ import {
 </script>
 
 <style lang="scss" scoped>
+.contact {
+}
 footer {
     position: relative;
     min-height: 300px;

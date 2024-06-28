@@ -13,17 +13,17 @@ const MainRoutes = {
             meta: {
                 title: 'Home'
             }
+        },
+        {
+            name: 'contact',
+            path: '/contact-us',
+            component: () => import('@/views/website/ContactUs.vue'),
+            meta: {
+                title: 'Contact Us',
+                enterCLass: 'animate__animated animate__fadeInRight',
+                leaveClass: 'animate__animated animate__fadeOutLeft'
+            }
         }
-        // {
-        //     name: 'contact',
-        //     path: '/contact-us',
-        //     component: () => import('@/views/website/ContactUs.vue'),
-        //     meta: {
-        //         title: 'Contact Us',
-        //         enterCLass: 'animate__animated animate__fadeInRight',
-        //         leaveClass: 'animate__animated animate__fadeOutLeft'
-        //     }
-        // },
     ]
 };
 

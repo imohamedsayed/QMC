@@ -4,7 +4,7 @@
             <v-breadcrumbs :items="items">
                 <template v-slot:prepend>
                     <v-btn icon elevation="0" class="bg-background" to="/">
-                        <v-icon class="mx-1" size="small" icon="mdi-home" color="primary"></v-icon>
+                        <v-icon class="mx-1" size="small" icon="mdi-home" color="blueLogo"></v-icon>
                     </v-btn>
                     <v-icon icon="mdi-chevron-right" v-if="$i18n.locale === 'EN'"></v-icon>
                     <v-icon icon="mdi-chevron-left" v-else></v-icon>
@@ -25,21 +25,14 @@
                 <v-container>
                     <div :class="['form-wrapper', $i18n.locale === 'AR' ? 'right' : 'left']">
                         <form class="cb-form" @submit.prevent="sendMessage">
-                            <div v-if="user">
+                            <div>
                                 <p>{{ $t('contact_us.request') }}</p>
                                 <v-text-field :label="$t('contact_us.name')" color="skin" v-model="name" readonly=""></v-text-field>
                                 <v-text-field :label="$t('contact_us.email')" color="skin" v-model="email" readonly></v-text-field>
                                 <v-text-field :label="$t('contact_us.phone')" color="skin" v-model="phone" readonly></v-text-field>
                                 <v-textarea :label="$t('contact_us.message')" v-model="message" color="skin" required></v-textarea>
-                                <v-btn :loading="loading" color="skin" block size="large" type="submit">{{
+                                <v-btn :loading="loading" color="blueLogo" block size="large" type="submit">{{
                                     $t('contact_us.submit')
-                                }}</v-btn>
-                            </div>
-                            <div class="text-center" v-else>
-                                <img src="@/assets/images/background/auth.svg" alt="" />
-                                <p class="font-weight-bold">{{ $t('contact_us.loginFirst') }}</p>
-                                <v-btn color="primary" class="mt-4" @click="$router.push({ name: 'login' })">{{
-                                    $t('header.login')
                                 }}</v-btn>
                             </div>
                         </form>
@@ -54,14 +47,14 @@
 
                     <v-list>
                         <v-list-item prepend-icon="mdi-map-marker">{{ $t('contact_us.address') }}</v-list-item>
-                        <v-list-item prepend-icon="mdi-phone">+201005859765, +201111922571</v-list-item>
-                        <v-list-item prepend-icon="mdi-email">future.technology414@gmail.com</v-list-item>
+                        <v-list-item prepend-icon="mdi-phone">+9991232xxxx, +9991232xxxx</v-list-item>
+                        <v-list-item prepend-icon="mdi-email">QMC.inc@gmail.com</v-list-item>
                     </v-list>
                     <div class="social-links text-skin">
-                        <a href="https://wa.me/+201111922571?text=Hello%future!" target="_blank" class="text-skin">
+                        <a href="https://wa.me/+201111922571?text=Hello%future!" target="_blank" class="text-green">
                             <v-btn elevation="0" icon><v-icon>mdi-whatsapp</v-icon></v-btn>
                         </a>
-                        <a href="https://www.facebook.com/profile.php?id=100090516042333" target="_blank" class="text-skin">
+                        <a href="https://www.facebook.com/profile.php?id=100090516042333" target="_blank" class="text-green">
                             <v-btn elevation="0" icon><v-icon>mdi-facebook</v-icon></v-btn>
                         </a>
                     </div>
@@ -78,14 +71,11 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { computed, onMounted, ref } from 'vue';
 
-import { useAuthStore } from '@/stores/AuthStore';
 import { toast } from 'vue3-toastify';
 import axios from 'axios';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const authStore = useAuthStore();
-const user = computed(() => authStore.getUser);
 const name = ref('');
 const phone = ref('');
 const email = ref('');
@@ -102,11 +92,7 @@ onMounted(() => {
     window.scrollTo(0, 0);
 
     // animations
-    if (user.value) {
-        name.value = user.value.fullName;
-        phone.value = user.value.phoneNumber;
-        email.value = user.value.email;
-    }
+
     gsap.from('.right', {
         x: 400,
         opacity: 0,
@@ -207,7 +193,7 @@ const sendMessage = async () => {
                 display: block;
                 margin: 20px 0;
                 height: 20px;
-                background: linear-gradient(180deg, #2a3789 0%, rgba(42, 55, 137, 0.56) 100%);
+                background: linear-gradient(180deg, #4b9f61 0%, rgba(42, 137, 108, 0.342) 100%);
                 width: 200px;
                 border-radius: 20px;
             }

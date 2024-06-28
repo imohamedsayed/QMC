@@ -10,7 +10,8 @@ const PurpleTheme: ThemeTypes = {
     colors: {
         black: '#111',
         primary: '#5D87FF',
-        skin: '#2A388A',
+        skin: '#367cb5',
+        blue: '#2A388A',
         secondary: '#49BEFF',
         info: '#539BFF',
         success: '#13DEB9',

@@ -33,13 +33,15 @@
                 <!-- Notification -->
             </div>
             <div class="navigation d-md-block d-none">
-                <v-list class="d-flex text-skin font-weight-bold header-nav">
-                    <v-list-item value="landing" to="/"> {{ $t('header.link1') }} </v-list-item>
-                    <v-list-item value="products" to="/products"> {{ $t('header.link2') }} </v-list-item>
-                    <v-list-item value="about" to="/about-us"> {{ $t('header.link3') }}</v-list-item>
-                    <v-list-item value="offers" to="/offers"> {{ $t('header.link4') }}</v-list-item>
-                    <v-list-item value="contact" to="/contact-us"> {{ $t('header.link5') }}</v-list-item>
-                    <v-list-item value="contact" to="/contact-us"> {{ $t('header.link6') }}</v-list-item>
+                <v-list class="d-flex text-blue font-weight-bold header-nav">
+                    <v-list-item value="landing" to="/"> {{ $t('header.home') }} </v-list-item>
+                    <v-list-item value="about" to="/about-us"> {{ $t('header.about') }}</v-list-item>
+                    <v-list-item value="products" to="/products"> {{ $t('header.services') }} </v-list-item>
+                    <v-list-item value="offers" to="/offers"> {{ $t('header.process') }}</v-list-item>
+                    <v-list-item value="clients" to="/clients"> {{ $t('header.clients') }}</v-list-item>
+                    <v-list-item value="contact" to="/contact-us"> {{ $t('header.contact') }}</v-list-item>
+                    <v-list-item value="blog" to="/blogs"> {{ $t('header.blog') }}</v-list-item>
+                    <v-list-item value="faq" to="/faq"> {{ $t('header.faq') }}</v-list-item>
                     <!-- <v-list-item>
                         <v-menu open-on-hover>
                             <template v-slot:activator="{ props }">

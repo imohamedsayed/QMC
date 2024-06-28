@@ -35,6 +35,7 @@ export type ThemeTypes = {
         delete?: string;
         white?: string;
         green?: string;
-        blueLogo: string;
+        blueLogo?: string;
+        blue?: string;
     };
 };
