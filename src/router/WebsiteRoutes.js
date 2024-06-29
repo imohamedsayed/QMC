@@ -33,6 +33,37 @@ const MainRoutes = {
                 enterCLass: 'animate__animated animate__fadeInRight',
                 leaveClass: 'animate__animated animate__fadeOutLeft'
             }
+        },
+        {
+            name: 'about',
+            path: '/about-us',
+            component: () => import('@/views/website/AboutUs.vue'),
+            meta: {
+                title: 'About Us',
+                enterCLass: 'animate__animated animate__fadeInRight',
+                leaveClass: 'animate__animated animate__fadeOutLeft'
+            }
+        },
+        {
+            name: 'blogs',
+            path: '/blogs',
+            component: () => import('@/views/website/Blogs.vue'),
+            meta: {
+                title: 'Blogs',
+                enterCLass: 'animate__animated animate__fadeInLeft',
+                leaveClass: 'animate__animated animate__fadeOutRight'
+            }
+        },
+        {
+            name: 'blog',
+            path: '/blogs/:id',
+            props: true,
+            component: () => import('@/views/website/Blog.vue'),
+            meta: {
+                title: 'Blogs',
+                enterCLass: 'animate__animated animate__fadeInRight',
+                leaveClass: 'animate__animated animate__fadeOutLeft'
+            }
         }
     ]
 };

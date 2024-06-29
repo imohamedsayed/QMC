@@ -208,16 +208,19 @@ onMounted(() => {
 
 <style lang="scss" scoped>
 .process {
-    .process-box {
-        p {
-            &.title {
-                color: #4b9f61;
-                font-size: 20px;
-                font-weight: bold;
-            }
-            &.text {
-                color: #5a6a85;
-                font-size: 16px;
+    .our-process {
+        overflow-x: hidden;
+        .process-box {
+            p {
+                &.title {
+                    color: #4b9f61;
+                    font-size: 20px;
+                    font-weight: bold;
+                }
+                &.text {
+                    color: #5a6a85;
+                    font-size: 16px;
+                }
             }
         }
     }
