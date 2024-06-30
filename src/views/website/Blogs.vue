@@ -145,6 +145,35 @@ onMounted(() => {
                 transform: translateX(-50%);
             }
         }
+        @media (max-width: 1200px) {
+            p {
+                font-size: 2.4rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            p {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            p {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            p {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            p {
+                font-size: 1.6rem;
+            }
+        }
     }
     .blogs-list {
         position: relative;

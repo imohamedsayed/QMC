@@ -86,5 +86,11 @@ export default {
     },
     blogs: {
         title: 'الاحدث فى مدونتنا'
+    },
+    faq: {
+        title: 'الاسئلة الشائعة'
+    },
+    clients:{
+        title: 'الشركات التي نخدمها'
     }
 };

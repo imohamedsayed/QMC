@@ -35,6 +35,16 @@ const MainRoutes = {
             }
         },
         {
+            name: 'clients',
+            path: '/our-clients',
+            component: () => import('@/views/website/Clients.vue'),
+            meta: {
+                title: 'Our Clients',
+                enterCLass: 'animate__animated animate__fadeInLeft',
+                leaveClass: 'animate__animated animate__fadeOutRight'
+            }
+        },
+        {
             name: 'about',
             path: '/about-us',
             component: () => import('@/views/website/AboutUs.vue'),
@@ -61,6 +71,16 @@ const MainRoutes = {
             component: () => import('@/views/website/Blog.vue'),
             meta: {
                 title: 'Blogs',
+                enterCLass: 'animate__animated animate__fadeInRight',
+                leaveClass: 'animate__animated animate__fadeOutLeft'
+            }
+        },
+        {
+            name: 'faqs',
+            path: '/FAQs',
+            component: () => import('@/views/website/Faq.vue'),
+            meta: {
+                title: 'FAQs',
                 enterCLass: 'animate__animated animate__fadeInRight',
                 leaveClass: 'animate__animated animate__fadeOutLeft'
             }

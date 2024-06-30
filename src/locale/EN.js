@@ -82,5 +82,11 @@ export default {
     },
     blogs: {
         title: "What's the latest ?"
+    },
+    faq: {
+        title: 'Frequently Asked Questions'
+    },
+    clients: {
+        title: 'Our Clients'
     }
 };

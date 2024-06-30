@@ -307,6 +307,35 @@ onMounted(() => {
                 transform: translateX(-50%);
             }
         }
+        @media (max-width: 1200px) {
+            p {
+                font-size: 2.4rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            p {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            p {
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            p {
+                font-size: 1.8rem;
+            }
+        }
+
+        @media (max-width: 400px) {
+            p {
+                font-size: 1.6rem;
+            }
+        }
     }
     .why-us,
     .about {
@@ -346,6 +375,25 @@ onMounted(() => {
                 font-size: 3rem;
                 @media (max-width: 500px) {
                     font-size: 2.5rem;
+                }
+                @media (max-width: 1200px) {
+                    font-size: 2.4rem;
+                }
+
+                @media (max-width: 992px) {
+                    font-size: 2.2rem;
+                }
+
+                @media (max-width: 768px) {
+                    font-size: 2rem;
+                }
+
+                @media (max-width: 576px) {
+                    font-size: 1.8rem;
+                }
+
+                @media (max-width: 400px) {
+                    font-size: 1.6rem;
                 }
                 position: relative;
                 padding-bottom: 10px;

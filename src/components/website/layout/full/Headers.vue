@@ -36,31 +36,24 @@
                 <v-list class="d-flex text-blue font-weight-bold header-nav">
                     <v-list-item value="landing" to="/"> {{ $t('header.home') }} </v-list-item>
                     <v-list-item value="about" to="/about-us"> {{ $t('header.about') }}</v-list-item>
-                    <v-list-item value="offers" to="/offers"> {{ $t('header.services') }}</v-list-item>
-                    <v-list-item value="process" to="/our-process"> {{ $t('header.process') }} </v-list-item>
-                    <v-list-item value="clients" to="/clients"> {{ $t('header.clients') }}</v-list-item>
-                    <v-list-item value="contact" to="/contact-us"> {{ $t('header.contact') }}</v-list-item>
-                    <v-list-item value="blog" to="/blogs"> {{ $t('header.blog') }}</v-list-item>
-                    <v-list-item value="faq" to="/faq"> {{ $t('header.faq') }}</v-list-item>
-                    <!-- <v-list-item>
+                    <v-list-item>
                         <v-menu open-on-hover>
                             <template v-slot:activator="{ props }">
-                                <p v-bind="props" color="primary">{{ $t('header.categories') }} <v-icon>mdi-chevron-down</v-icon></p>
+                                <p v-bind="props" color="primary">{{ $t('header.services') }} <v-icon>mdi-chevron-down</v-icon></p>
                             </template>
 
                             <v-list>
-                                <v-list-item
-                                    color="primary"
-                                    v-for="item in categories"
-                                    :key="item.id"
-                                    :value="item.name"
-                                    :to="'/category/' + item.id"
-                                >
-                                    <v-list-item-title>{{ item.name }}</v-list-item-title>
+                                <v-list-item color="primary" v-for="s in 4" :key="s" :value="'service ' + i">
+                                    <v-list-item-title>{{ 'service ' + s }}</v-list-item-title>
                                 </v-list-item>
                             </v-list>
                         </v-menu>
-                    </v-list-item> -->
+                    </v-list-item>
+                    <v-list-item value="process" to="/our-process"> {{ $t('header.process') }} </v-list-item>
+                    <v-list-item value="clients" to="/our-clients"> {{ $t('header.clients') }}</v-list-item>
+                    <v-list-item value="contact" to="/contact-us"> {{ $t('header.contact') }}</v-list-item>
+                    <v-list-item value="blog" to="/blogs"> {{ $t('header.blog') }}</v-list-item>
+                    <v-list-item value="faq" to="/FAQs"> {{ $t('header.faq') }}</v-list-item>
                 </v-list>
             </div>
         </div>
