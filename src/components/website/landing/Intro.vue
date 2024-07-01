@@ -12,7 +12,7 @@
                     style="width: 246px; background: linear-gradient(to right, #4b9f61, #8eb6d3, #367cb5); font-size: 28px !important"
                     elevation="0"
                     rounded="lg"
-                    to="/products"
+                    to="/our-services"
                     >{{ $t('intro.start') }}</v-btn
                 >
             </div>

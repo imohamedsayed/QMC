@@ -88,5 +88,8 @@ export default {
     },
     clients: {
         title: 'Our Clients'
+    },
+    services: {
+        title: 'Our Services'
     }
 };

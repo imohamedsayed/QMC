@@ -15,6 +15,16 @@ const MainRoutes = {
             }
         },
         {
+            name: 'services',
+            path: '/our-services',
+            component: () => import('@/views/website/Services.vue'),
+            meta: {
+                title: 'Contact Us',
+                enterCLass: 'animate__animated animate__fadeInLeft',
+                leaveClass: 'animate__animated animate__fadeOutRight'
+            }
+        },
+        {
             name: 'contact',
             path: '/contact-us',
             component: () => import('@/views/website/ContactUs.vue'),

@@ -90,7 +90,10 @@ export default {
     faq: {
         title: 'الاسئلة الشائعة'
     },
-    clients:{
+    clients: {
         title: 'الشركات التي نخدمها'
+    },
+    services: {
+        title: 'الخدمات التى نقدمها'
     }
 };
