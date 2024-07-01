@@ -19,7 +19,29 @@ const MainRoutes = {
             path: '/our-services',
             component: () => import('@/views/website/Services.vue'),
             meta: {
-                title: 'Contact Us',
+                title: 'Our Services',
+                enterCLass: 'animate__animated animate__fadeInLeft',
+                leaveClass: 'animate__animated animate__fadeOutRight'
+            }
+        },
+        {
+            name: 'parent service',
+            path: '/our-services/:id',
+            props: true,
+            component: () => import('@/views/website/ParentService.vue'),
+            meta: {
+                title: 'Service',
+                enterCLass: 'animate__animated animate__fadeInRight',
+                leaveClass: 'animate__animated animate__fadeOutLeft'
+            }
+        },
+        {
+            name: 'service',
+            path: '/our-services/:pid/:id',
+            props: true,
+            component: () => import('@/views/website/Service.vue'),
+            meta: {
+                title: 'Service',
                 enterCLass: 'animate__animated animate__fadeInLeft',
                 leaveClass: 'animate__animated animate__fadeOutRight'
             }

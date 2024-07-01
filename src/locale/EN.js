@@ -20,6 +20,7 @@ export default {
     bread: {
         home: 'Home',
         services: 'Services',
+        service: 'Service',
         contact: 'Contact us',
         process: 'Our Process',
         about: 'About us',
@@ -81,7 +82,8 @@ export default {
             'To be the leading provider of innovative financial solutions, empowering businesses to achieve sustainable growth and success across diverse industries.'
     },
     blogs: {
-        title: "What's the latest ?"
+        title: "What's the latest ?",
+        read: 'READ MORE'
     },
     faq: {
         title: 'Frequently Asked Questions'
@@ -90,6 +92,8 @@ export default {
         title: 'Our Clients'
     },
     services: {
-        title: 'Our Services'
+        title: 'Our Services',
+        learn: 'Learn More ..',
+        about: 'About This Service'
     }
 };

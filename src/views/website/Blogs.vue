@@ -40,7 +40,7 @@
                                     >Financial control is of paramount importance in the administrative process. One of the most important
                                     pillars of this process and the...</v-card-text
                                 >
-                                <v-btn elevation="0" class="mx-4" color="skin">READ MORE</v-btn>
+                                <v-btn elevation="0" class="mx-4" color="skin">{{ $t('blogs.more') }}</v-btn>
                             </v-card>
                         </v-col>
                     </v-row>

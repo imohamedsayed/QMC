@@ -1,5 +1,5 @@
 <template>
-    <div class="our-services py-10">
+    <div class="service py-10">
         <v-container>
             <v-breadcrumbs :items="items">
                 <template v-slot:prepend>
@@ -16,14 +16,39 @@
                     <v-icon icon="mdi-chevron-left"></v-icon>
                 </template>
             </v-breadcrumbs>
-            <div class="services my-10">
-                <div class="title text-center animate__animated animate__backInDown">
-                    <p class="text-skin">{{ $t('services.title') }}</p>
-                </div>
-                <div class="services-list mt-10">
+            <div class="title text-center animate__animated animate__backInDown mb-10">
+                <p class="text-skin">{{ $t('services.title') }}</p>
+            </div>
+
+            <div class="service-header px-8 elevation-1">
+                <div class="overlay"></div>
+                <v-row class="align-center content">
+                    <v-col cols="12" md="6">
+                        <img
+                            class="left"
+                            style="max-width: 400px; max-height: 400px"
+                            src="https://st.depositphotos.com/1000423/1637/i/450/depositphotos_16370285-stock-photo-hand-pushing-on-a-touch.jpg"
+                        />
+                    </v-col>
+                    <v-col cols="12" md="6">
+                        <div class="about-service right">
+                            <p class="about">{{ $t('services.about') }}</p>
+                            <p>
+                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est aspernatur accusantium numquam sed, possimus
+                                quos debitis! Eos, possimus? Alias, praesentium eius error neque adipisci recusandae aliquid mollitia
+                                quibusdam repudiandae accusamus.
+                            </p>
+                        </div>
+                    </v-col>
+                </v-row>
+            </div>
+
+            <hr />
+            <div class="service-content my-10">
+                <div class="content">
                     <v-row>
                         <v-col cols="12" md="4" lg="4" v-for="i in 6" :key="i">
-                            <v-card class="service right pa-2" prepend-avatar="./logo.png" @click="$router.push('/our-services/1')">
+                            <v-card class="service right pa-2" @click="$router.push('/our-services/1')">
                                 <img
                                     style="width: 100%"
                                     src="https://st.depositphotos.com/1000423/1637/i/450/depositphotos_16370285-stock-photo-hand-pushing-on-a-touch.jpg"
@@ -45,7 +70,7 @@
                     </v-row>
                 </div>
                 <img src="@/assets/images/abstract/services1.svg" class="liquid-shape" alt="" />
-                <img src="@/assets/images/abstract/services1.svg" class="liquid-shape l2" alt="" />
+                <img src="@/assets/images/abstract/services2.svg" class="liquid-shape l2" alt="" />
             </div>
         </v-container>
     </div>
@@ -62,7 +87,12 @@ gsap.registerPlugin(ScrollTrigger);
 const items = [
     {
         title: t('bread.services'),
-        disabled: true,
+        disabled: false,
+        href: '/our-services'
+    },
+    {
+        title: t('bread.service'),
+        disabled: false,
         href: '/our-services'
     }
 ];
@@ -99,7 +129,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss" scoped>
-.our-services {
+.service {
     overflow-x: hidden;
     overflow-y: hidden;
     .title {
@@ -150,7 +180,77 @@ onMounted(() => {
             }
         }
     }
-    .services {
+    .service-header {
+        border-radius: 20px;
+        position: relative;
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 20px;
+            width: 100%;
+            height: 100%;
+            background: url('@/assets/images/abstract/abs.png') center no-repeat;
+            background-size: cover;
+            opacity: 0.1;
+        }
+        .content {
+            position: relative;
+            z-index: 10;
+            img {
+                width: 100%;
+                height: auto;
+                max-width: 400px;
+                max-height: 400px;
+                border-radius: 20px;
+                object-fit: cover;
+                object-position: center;
+
+                @media (max-width: 768px) {
+                    max-width: 300px;
+                    max-height: 300px;
+                }
+
+                @media (max-width: 576px) {
+                    max-width: 200px;
+                    max-height: 200px;
+                }
+            }
+        }
+    }
+    .about-service {
+        margin-top: 10px;
+
+        p {
+            &.about {
+                color: #4b9f61;
+                font-weight: bold;
+                font-size: 1.6rem;
+            }
+        }
+    }
+    .service-img {
+        width: 100%;
+        border-radius: 10px;
+        height: auto;
+        max-height: 400px;
+        object-fit: cover;
+        object-position: center;
+
+        @media (max-width: 768px) {
+            max-height: 300px;
+        }
+
+        @media (max-width: 576px) {
+            max-height: 200px;
+        }
+    }
+    hr {
+        margin: 20px 0;
+        background-color: #367cb5;
+        height: 3px;
+    }
+    .service-content {
         position: relative;
         height: auto;
         .liquid-shape {
@@ -169,7 +269,7 @@ onMounted(() => {
                 }
             }
         }
-        .services-list {
+        .content {
             position: relative;
             z-index: 10;
             .service {
