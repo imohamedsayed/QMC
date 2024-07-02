@@ -8,7 +8,6 @@
                             <div class="d-flex justify-center py-4 text-center cursor-pointer" @click="$router.push('/')">
                                 <img src="@/assets/images/logo.png" width="200" height="120" />
                             </div>
-                            <div class="text-body-1 text-muted text-center mb-3">Future for computer hardware</div>
                             <LoginForm />
                         </v-card-item>
                     </v-card>

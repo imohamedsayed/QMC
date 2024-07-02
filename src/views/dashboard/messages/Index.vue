@@ -2,7 +2,7 @@
     <v-row>
         <v-col cols="12" md="12">
             <UiParentCard title="Messages">
-                <MessagesList />
+                <Messages />
             </UiParentCard>
         </v-col>
     </v-row>
@@ -14,9 +14,9 @@ import { useAuthStore } from '@/stores/AuthStore';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import axios from 'axios';
-import MessagesList from '@/components/admin/messages/MessagesList.vue';
+import Messages from '@/components/admin/Contact/Messages.vue';
 export default {
-    components: { UiParentCard, MessagesList },
+    components: { UiParentCard, Messages },
     setup() {
         const admin = useAuthStore().getAdmin;
         onMounted(async () => {
@@ -25,4 +25,3 @@ export default {
     }
 };
 </script>
-

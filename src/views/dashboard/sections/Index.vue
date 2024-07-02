@@ -1,25 +1,27 @@
 <template>
     <v-row>
         <v-col cols="12" md="12">
-            <UiParentCard title="Sales">
+            <UiParentCard title="Services">
                 <div class="text-end mr-10">
-                    <v-btn color="primary" @click="$router.push({ name: 'AddSale' })"
-                        ><v-icon class="mr-2">mdi-plus</v-icon> Add new sale</v-btn
+                    <v-btn color="primary" @click="$router.push({ name: 'AddChildService' })"
+                        ><v-icon class="mr-2">mdi-plus</v-icon> Add new Service</v-btn
                     >
                 </div>
-                <SalesList />
+                <ChildServicesList />
             </UiParentCard>
         </v-col>
     </v-row>
 </template>
 <script>
 import UiParentCard from '@/components/shared/UiParentCard.vue';
-import { onMounted } from 'vue';
+import { onMounted, reactive } from 'vue';
 import { useAuthStore } from '@/stores/AuthStore';
 import { useRouter } from 'vue-router';
-import SalesList from '@/components/admin/sales/SalesList.vue';
+import { toast } from 'vue3-toastify';
+import axios from 'axios';
+import ChildServicesList from '@/components/admin/services/ChildServicesList.vue';
 export default {
-    components: { UiParentCard, SalesList },
+    components: { UiParentCard, ChildServicesList },
     setup() {
         const admin = useAuthStore().getAdmin;
         onMounted(async () => {

@@ -1,20 +1,53 @@
 <template>
     <v-row>
         <v-col cols="12" md="12">
-            <UiParentCard title="edit brand" :loading="state.loading">
+            <UiParentCard title="edit services section" :loading="state.loading">
                 <div class="pa-10">
                     <form @submit.prevent="edit">
                         <v-row class="align-center">
                             <v-col cols="12" md="6">
                                 <v-text-field
-                                    v-model="state.name"
-                                    label="brand name"
+                                    v-model="state.name_en"
+                                    label="Name (English)"
                                     variant="outlined"
                                     color="primary"
                                     prepend-inner-icon="mdi-text"
-                                    :error-messages="v$.name.$error ? v$.name.$errors[0].$message : ''"
+                                    :error-messages="v$.name_en.$error ? v$.name_en.$errors[0].$message : ''"
                                 >
                                 </v-text-field>
+                            </v-col>
+                            <v-col cols="12" md="6">
+                                <v-text-field
+                                    v-model="state.name_ar"
+                                    label="Name (Arabic)"
+                                    variant="outlined"
+                                    color="primary"
+                                    prepend-inner-icon="mdi-text"
+                                    :error-messages="v$.name_ar.$error ? v$.name_ar.$errors[0].$message : ''"
+                                >
+                                </v-text-field>
+                            </v-col>
+                            <v-col cols="12" md="6">
+                                <v-textarea
+                                    v-model="state.description_en"
+                                    label="Description (English)"
+                                    variant="outlined"
+                                    color="primary"
+                                    prepend-inner-icon="mdi-text"
+                                    :error-messages="v$.description_en.$error ? v$.description_en.$errors[0].$message : ''"
+                                >
+                                </v-textarea>
+                            </v-col>
+                            <v-col cols="12" md="6">
+                                <v-textarea
+                                    v-model="state.description_ar"
+                                    label="Description (Arabic)"
+                                    variant="outlined"
+                                    color="primary"
+                                    prepend-inner-icon="mdi-text"
+                                    :error-messages="v$.description_ar.$error ? v$.description_ar.$errors[0].$message : ''"
+                                >
+                                </v-textarea>
                             </v-col>
                             <v-col cols="12" md="6">
                                 <v-file-input
@@ -28,7 +61,7 @@
                                 >
                                     <template v-slot:append>
                                         <v-img v-if="state.cover.length" :src="getImageUrl()" width="80" height="53"></v-img>
-                                        <v-img v-else :src="apiUrl + '/assets/Brand/' + state.storedImage" width="80" height="53"></v-img>
+                                        <v-img v-else :src="apiUrl + state.path + state.storedImage" width="80" height="53"></v-img>
                                     </template>
                                 </v-file-input>
                             </v-col>
@@ -65,24 +98,33 @@ export default {
     props: ['id'],
     setup(props) {
         const state = reactive({
-            name: '',
+            name_ar: '',
+            name_en: '',
+            description_en: '',
+            description_ar: '',
             cover: '',
+            path: '',
             status: false,
-            loading: false,
+            loading: true,
             storedImage: ''
         });
         const apiUrl = import.meta.env.VITE_API_URL;
         onMounted(async () => {
-            if (!useAuthStore().getAdmin || useAuthStore().getAdmin.role_id == 3) useRouter().push({ name: 'adminLogin' });
+            if (!useAuthStore().getAdmin) useRouter().push({ name: 'adminLogin' });
             state.loading = true;
             try {
-                const res = await axios.get('api_dashboard/brands/' + props.id);
+                const res = await axios.get('api_dashboard/services/' + props.id);
                 if (res.status == 200) {
-                    const brand = res.data.data;
+                    const service = res.data.data;
+                    state.name_ar = service.name_ar;
+                    state.name_en = service.name_en;
+                    state.description_ar = service.description_ar;
+                    state.description_en = service.description_en;
+                    state.path = service.ImagePath;
 
-                    state.name = brand.brandName;
-                    state.storedImage = brand.image?.name || null;
-                    state.status = brand.status == 'Enable';
+                    state.storedImage = service.media?.name || null;
+
+                    state.status = Boolean(Number(service.status));
                 } else {
                     throw new Error(res.response.data.message);
                 }
@@ -94,7 +136,10 @@ export default {
 
         const rules = computed(() => {
             return {
-                name: { required }
+                name_en: { required },
+                name_ar: { required },
+                description_en: { required },
+                description_ar: { required }
             };
         });
         const v$ = useVuelidate(rules, state);
@@ -105,18 +150,21 @@ export default {
                 state.loading = true;
                 try {
                     let data = {
-                        name: state.name,
+                        name_en: state.name_en,
+                        name_ar: state.name_ar,
+                        description_en: state.description_en,
+                        description_ar: state.description_ar,
                         image: state.cover[0],
                         status: Number(state.status).toString()
                     };
 
-                    const res = await axios.post('api_dashboard/brands/' + props.id, data, {
+                    const res = await axios.post('api_dashboard/services/' + props.id, data, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
                     });
                     if (res.status == 202) {
-                        toast.success('Brand updated successfully');
+                        toast.success('Services Section updated successfully');
                     } else {
                         throw new Error(res.response.data.message);
                     }

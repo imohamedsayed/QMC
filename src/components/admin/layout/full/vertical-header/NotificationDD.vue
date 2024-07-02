@@ -62,14 +62,12 @@
                     <div class="text-center">
                         <v-icon size="50" class="mb-2">mdi-bell-off-outline</v-icon>
                         <p class="text-error" v-if="err">{{ err }}</p>
-                        <p class="text-muted" v-else>
-                            {{ $t('notification.noNotifications') }}
-                        </p>
+                        <p class="text-muted" v-else>There is no unread notifications</p>
                     </div>
                 </v-list>
                 <div class="px-4">
                     <v-btn elevation="0" color="primary" variant="outlined" block rounded="lg" to="/dashboard/notifications">
-                        {{ $t('notification.showAll') }}
+                        Show All
                     </v-btn>
                 </div>
             </v-sheet>
