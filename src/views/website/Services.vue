@@ -21,19 +21,14 @@
                     <p class="text-skin">{{ $t('services.title') }}</p>
                 </div>
                 <div class="services-list mt-10">
-                    <v-row>
+                    <v-row v-if="!loading">
                         <v-col cols="12" md="4" lg="4" v-for="i in 6" :key="i">
                             <v-card class="service right pa-2" prepend-avatar="./logo.png" @click="$router.push('/our-services/1')">
                                 <img
                                     style="width: 100%"
                                     src="https://st.depositphotos.com/1000423/1637/i/450/depositphotos_16370285-stock-photo-hand-pushing-on-a-touch.jpg"
                                 />
-                                <!-- <template v-slot:placeholder>
-                                        <div class="d-flex align-center justify-center fill-height">
-                                            <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
-                                        </div>
-                                    </template>
-                                </img> -->
+
                                 <v-card-title class="text-skin font-weight-bold">Service 1</v-card-title>
                                 <v-card-text
                                     >Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima corrupti assumenda vitae enim incidunt
@@ -41,6 +36,13 @@
                                 >
                                 <v-btn elevation="0" class="text-primary">{{ $t('services.learn') }}</v-btn>
                             </v-card>
+                        </v-col>
+                    </v-row>
+                    <v-row v-else>
+                        <v-progress-linear color="skin" indeterminate class="my-4"></v-progress-linear>
+
+                        <v-col cols="12" md="4" lg="4" v-for="i in 6" :key="i">
+                            <div class="skelton card"></div>
                         </v-col>
                     </v-row>
                 </div>
@@ -57,7 +59,6 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n({ useScope: 'global' });
-import { IconUsersGroup } from '@tabler/icons-vue';
 gsap.registerPlugin(ScrollTrigger);
 const items = [
     {
@@ -66,36 +67,43 @@ const items = [
         href: '/our-services'
     }
 ];
-
+const loading = ref(true);
 onMounted(() => {
-    // animations
+    setTimeout(() => {
+        loading.value = false;
+        animations();
+    }, 1000);
     window.scrollTo(0, 0);
-
-    gsap.utils.toArray('.left').forEach((box) => {
-        gsap.from(box, {
-            x: -100,
-            opacity: 0,
-            duration: 1,
-            scrollTrigger: {
-                trigger: box,
-                start: 'top 80%',
-                end: 'bottom 20%'
-            }
-        });
-    });
-    gsap.utils.toArray('.right').forEach((box) => {
-        gsap.from(box, {
-            x: 100,
-            opacity: 0,
-            duration: 1,
-            scrollTrigger: {
-                trigger: box,
-                start: 'top 80%',
-                end: 'bottom 20%'
-            }
-        });
-    });
 });
+
+const animations = () => {
+    setTimeout(() => {
+        gsap.utils.toArray('.left').forEach((box) => {
+            gsap.from(box, {
+                x: -100,
+                opacity: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: box,
+                    start: 'top 80%',
+                    end: 'bottom 20%'
+                }
+            });
+        });
+        gsap.utils.toArray('.right').forEach((box) => {
+            gsap.from(box, {
+                x: 100,
+                opacity: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: box,
+                    start: 'top 80%',
+                    end: 'bottom 20%'
+                }
+            });
+        });
+    }, 100);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -182,6 +190,27 @@ onMounted(() => {
                 }
             }
         }
+    }
+}
+.skelton {
+    background: linear-gradient(to bottom right, rgba(187, 179, 179, 0.321), rgba(255, 254, 254, 0.096));
+    border-radius: 10px;
+    width: 100%;
+    animation: shimmer 2s infinite;
+    background-size: 200% 100%;
+
+    &.card {
+        margin-top: 10px;
+        height: 300px;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
     }
 }
 </style>

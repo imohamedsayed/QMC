@@ -17,7 +17,7 @@
                 </template>
             </v-breadcrumbs>
 
-            <div class="our-process my-10">
+            <div class="our-process my-10" v-if="!loading">
                 <div class="process-box mb-5">
                     <v-row class="align-center">
                         <v-col cols="12" md="6" class="right">
@@ -154,6 +154,20 @@
                     </v-row>
                 </div>
             </div>
+            <div class="my-10" v-else>
+                <v-progress-linear color="skin" indeterminate></v-progress-linear>
+                <div class="box mb-10" v-for="i in 5" :key="i">
+                    <v-row class="align-center">
+                        <v-col cols="12" md="6" :class="i % 2 == 0 ? 'order-0' : 'order-1'">
+                            <div class="skelton image"></div>
+                        </v-col>
+                        <v-col cols="12" md="6">
+                            <div class="skelton p"></div>
+                            <div class="skelton card"></div>
+                        </v-col>
+                    </v-row>
+                </div>
+            </div>
         </v-container>
     </div>
 </template>
@@ -163,7 +177,7 @@ import { useI18n } from 'vue-i18n';
 const { t } = useI18n({ useScope: 'global' });
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { toast } from 'vue3-toastify';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -175,34 +189,41 @@ const items = [
         href: 'process'
     }
 ];
+
+const loading = ref(true);
+
 onMounted(() => {
     window.scrollTo(0, 0);
-
+    setTimeout(() => {
+        loading.value = false;
+    }, 1000);
     // animations
-    gsap.utils.toArray('.left').forEach((box) => {
-        gsap.from(box, {
-            x: 400,
-            opacity: 0,
-            duration: 1,
-            scrollTrigger: {
-                trigger: box,
-                start: 'top 80%',
-                toggleActions: 'play reverse restart reverse'
-            }
+    setTimeout(() => {
+        gsap.utils.toArray('.left').forEach((box) => {
+            gsap.from(box, {
+                x: 400,
+                opacity: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: box,
+                    start: 'top 80%',
+                    toggleActions: 'play reverse restart reverse'
+                }
+            });
         });
-    });
-    gsap.utils.toArray('.right').forEach((box) => {
-        gsap.from(box, {
-            x: -400,
-            opacity: 0,
-            duration: 1,
-            scrollTrigger: {
-                trigger: box,
-                start: 'top 80%',
-                toggleActions: 'play reverse restart reverse'
-            }
+        gsap.utils.toArray('.right').forEach((box) => {
+            gsap.from(box, {
+                x: -400,
+                opacity: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: box,
+                    start: 'top 80%',
+                    toggleActions: 'play reverse restart reverse'
+                }
+            });
         });
-    });
+    }, 1001);
 });
 </script>
 
@@ -223,6 +244,44 @@ onMounted(() => {
                 }
             }
         }
+    }
+}
+.skelton {
+    background: linear-gradient(to bottom right, rgba(187, 179, 179, 0.321), rgba(255, 254, 254, 0.096));
+    border-radius: 10px;
+    width: 100%;
+    animation: shimmer 2s infinite;
+    background-size: 200% 100%;
+    &.header {
+        height: 20px;
+        width: 400px;
+        margin: 0 auto;
+        margin-bottom: 16px;
+    }
+    &.p {
+        height: 20px;
+        margin-bottom: 8px;
+    }
+    &.card {
+        margin-top: 10px;
+        height: 150px;
+    }
+    &.image {
+        margin-top: 10px;
+        height: 200px;
+    }
+    &.rectangle {
+        margin-top: 10px;
+        height: 200px;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
     }
 }
 </style>

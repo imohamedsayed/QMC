@@ -2,10 +2,14 @@
     <div class="intro d-flex align-center justify-space-between position-relative">
         <v-container class="px-md-16 d-flex align-center justify-space-between flex-column flex-md-row justify-center">
             <div class="text animate__animated animate__backInLeft pt-3">
-                <h1 class="text-white">
+                <h1 class="text-white" v-if="!loading">
                     <span class="text-black">{{ $t('intro.qmc') }}</span> <br />
                 </h1>
-                <p class="mt-4 text-muted">{{ $t('intro.text') }} {{ $t('intro.anything') }}</p>
+                <div class="skeleton title" v-else></div>
+                <p class="mt-4 text-muted" v-if="!loading">
+                    {{ $t('intro.text') }} <span class="text-green">{{ $t('intro.anything') }}</span>
+                </p>
+                <div class="skeleton p mt-4" v-else></div>
                 <v-btn
                     class="mt-10 text-white font-weight-bold animate__animated animate__backInUp cursor-pointer py-2"
                     size="x-large"
@@ -16,16 +20,25 @@
                     >{{ $t('intro.start') }}</v-btn
                 >
             </div>
-            <div class="img animate__animated animate__backInRight">
+            <div class="img animate__animated animate__backInRight" v-if="!loading">
                 <img src="@/assets/images/landing/intro3.png" class="intro-img" alt="" />
                 <!-- <v-img class="intro-img" src="./lawyer.svg" cover > </v-img> -->
             </div>
+            <div class="skeleton image" v-else></div>
         </v-container>
     </div>
 </template>
 
-<script>
-export default {};
+<script setup>
+import { onMounted, ref } from 'vue';
+
+const loading = ref(true);
+
+onMounted(() => {
+    setTimeout(() => {
+        loading.value = false;
+    }, 1000);
+});
 </script>
 
 <style lang="scss" scoped>
@@ -102,6 +115,35 @@ export default {};
                 display: none;
             }
         }
+    }
+}
+.skeleton {
+    background: linear-gradient(to bottom right, rgba(187, 179, 179, 0.321), rgba(255, 254, 254, 0.096));
+    border-radius: 10px;
+    width: 100%;
+    animation: shimmer 2s infinite;
+    background-size: 200% 100%;
+    &.title {
+        height: 40px;
+        margin-bottom: 16px;
+    }
+    &.p {
+        height: 20px;
+        margin-bottom: 8px;
+    }
+    &.image {
+        width: 50%;
+        margin-top: 10px;
+        height: 300px;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
     }
 }
 </style>

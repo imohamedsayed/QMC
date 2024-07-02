@@ -17,7 +17,7 @@
                 </template>
             </v-breadcrumbs>
 
-            <div class="blogs-content my-10">
+            <div class="blogs-content my-10" v-if="!loading">
                 <div class="title text-center animate__animated animate__backInDown">
                     <p class="text-skin">{{ $t('blogs.title') }}</p>
                 </div>
@@ -48,6 +48,22 @@
                 </div>
                 <img src="@/assets/images/abstract/shape1.png" class="liquid-shape" alt="" />
             </div>
+            <div class="blogs-content my-10" v-else>
+                <div class="title text-center animate__animated animate__backInDown mb-10">
+                    <p class="text-skin">{{ $t('blogs.title') }}</p>
+                </div>
+                <v-progress-linear color="skin" indeterminate></v-progress-linear>
+
+                <div class="blogs-list mt-15">
+                    <v-row>
+                        <v-col cols="12" md="6" lg="4" v-for="i in 9" :key="i" @click="$router.push({ name: 'blog', params: { id: i } })">
+                            <div class="skelton card"></div>
+                        </v-col>
+                    </v-row>
+                    <v-pagination v-model="page" :length="15" class="mt-8 text-skin" dir="ltr"></v-pagination>
+                </div>
+                <img src="@/assets/images/abstract/shape1.png" class="liquid-shape" alt="" />
+            </div>
         </v-container>
     </div>
 </template>
@@ -68,50 +84,31 @@ const items = [
     }
 ];
 const page = ref(1);
-
+const loading = ref(true);
 onMounted(() => {
     // animations
     window.scrollTo(0, 0);
-    gsap.utils.toArray('.blog').forEach((box) => {
-        gsap.from(box, {
-            x: 100,
-            opacity: 0,
-            duration: 1,
-            scrollTrigger: {
-                trigger: box,
-                start: 'top 80%',
-                end: 'bottom 20%'
-            }
-        });
-    });
-
-    gsap.utils.toArray('.left').forEach((box) => {
-        gsap.from(box, {
-            x: -100,
-            opacity: 0,
-            duration: 1,
-            scrollTrigger: {
-                trigger: box,
-                start: 'top 80%',
-                end: 'bottom 20%',
-                toggleActions: 'play reverse restart reverse'
-            }
-        });
-    });
-    gsap.utils.toArray('.right').forEach((box) => {
-        gsap.from(box, {
-            x: 100,
-            opacity: 0,
-            duration: 1,
-            scrollTrigger: {
-                trigger: box,
-                start: 'top 80%',
-                end: 'bottom 20%',
-                toggleActions: 'play reverse restart reverse'
-            }
-        });
-    });
+    setTimeout(() => {
+        loading.value = false;
+        animations();
+    }, 1000);
 });
+const animations = () => {
+    setTimeout(() => {
+        gsap.utils.toArray('.blog').forEach((box) => {
+            gsap.from(box, {
+                x: 100,
+                opacity: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: box,
+                    start: 'top 80%',
+                    end: 'bottom 20%'
+                }
+            });
+        });
+    }, 100);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -186,6 +183,33 @@ onMounted(() => {
                 transform: scale(1.05);
             }
         }
+    }
+}
+.skelton {
+    background: linear-gradient(to bottom right, rgba(187, 179, 179, 0.321), rgba(255, 254, 254, 0.096));
+    border-radius: 10px;
+    width: 100%;
+    animation: shimmer 2s infinite;
+    background-size: 200% 100%;
+    &.header {
+        height: 20px;
+        width: 400px;
+        margin: 0 auto;
+        margin-bottom: 16px;
+    }
+
+    &.card {
+        margin-top: 10px;
+        height: 300px;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
     }
 }
 </style>

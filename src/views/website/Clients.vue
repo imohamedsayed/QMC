@@ -21,7 +21,7 @@
                 <div class="title text-center animate__animated animate__backInDown">
                     <p class="text-skin">{{ $t('clients.title') }}</p>
                 </div>
-                <div class="clients-list mt-10">
+                <div class="clients-list mt-10" v-if="!loading">
                     <v-row>
                         <v-col cols="6" md="4" lg="3" v-for="i in 16" :key="i">
                             <div class="left">
@@ -33,6 +33,15 @@
                                     </template>
                                 </v-img>
                             </div>
+                        </v-col>
+                    </v-row>
+                </div>
+                <div class="clients-list mt-10" v-else>
+                    <v-progress-linear color="skin" indeterminate></v-progress-linear>
+
+                    <v-row>
+                        <v-col cols="6" md="4" lg="3" v-for="i in 12" :key="i">
+                            <div class="left skelton image"></div>
                         </v-col>
                     </v-row>
                 </div>
@@ -58,11 +67,16 @@ const items = [
         href: '/our-clients'
     }
 ];
-
+const loading = ref(true);
 onMounted(() => {
+    setTimeout(() => {
+        loading.value = false;
+        animation();
+    }, 1000);
     // animations
     window.scrollTo(0, 0);
-    gsap.utils.toArray('.why-card').forEach((box) => {
+
+    gsap.utils.toArray('.skelton').forEach((box) => {
         gsap.from(box, {
             x: 100,
             opacity: 0,
@@ -70,37 +84,27 @@ onMounted(() => {
             scrollTrigger: {
                 trigger: box,
                 start: 'top 80%',
-                end: 'bottom 20%',
                 toggleActions: 'play reverse restart reverse'
             }
         });
     });
-
-    gsap.utils.toArray('.left').forEach((box) => {
-        gsap.from(box, {
-            x: -100,
-            opacity: 0,
-            duration: 1,
-            scrollTrigger: {
-                trigger: box,
-                start: 'top 80%',
-                end: 'bottom 20%'
-            }
-        });
-    });
-    gsap.utils.toArray('.right').forEach((box) => {
-        gsap.from(box, {
-            x: 100,
-            opacity: 0,
-            duration: 1,
-            scrollTrigger: {
-                trigger: box,
-                start: 'top 80%',
-                end: 'bottom 20%'
-            }
-        });
-    });
 });
+const animation = () => {
+    setTimeout(() => {
+        gsap.utils.toArray('.left').forEach((box) => {
+            gsap.from(box, {
+                x: -100,
+                opacity: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: box,
+                    start: 'top 80%',
+                    toggleActions: 'play reverse restart reverse'
+                }
+            });
+        });
+    }, 100);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -179,6 +183,33 @@ onMounted(() => {
             position: relative;
             z-index: 10;
         }
+    }
+}
+.skelton {
+    background: linear-gradient(to bottom right, rgba(187, 179, 179, 0.321), rgba(255, 254, 254, 0.096));
+    border-radius: 10px;
+    width: 100%;
+    animation: shimmer 2s infinite;
+    background-size: 200% 100%;
+    &.header {
+        height: 20px;
+        width: 400px;
+        margin: 0 auto;
+        margin-bottom: 16px;
+    }
+
+    &.image {
+        margin-top: 10px;
+        height: 200px;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
     }
 }
 </style>

@@ -22,7 +22,7 @@
                     <p class="text-skin">{{ $t('faq.title') }}</p>
                 </div>
                 <div class="faqs-list mt-10">
-                    <v-row>
+                    <v-row v-if="!loading">
                         <v-expansion-panels variant="">
                             <v-col cols="12" lg="6" v-for="i in 12" :key="i">
                                 <v-expansion-panel rounded="lg" :class="i % 2 == 0 ? 'right' : 'left'">
@@ -32,6 +32,15 @@
                                         voluptatibus! Eaque cupiditate minima
                                     </v-expansion-panel-text>
                                 </v-expansion-panel>
+                            </v-col>
+                        </v-expansion-panels>
+                    </v-row>
+                    <v-row v-else>
+                        <v-progress-linear color="skin" indeterminate></v-progress-linear>
+
+                        <v-expansion-panels variant="">
+                            <v-col cols="12" lg="6" v-for="i in 12" :key="i">
+                                <div class="skelton rectangle"></div>
                             </v-col>
                         </v-expansion-panels>
                     </v-row>
@@ -57,49 +66,44 @@ const items = [
         href: '/FAQs'
     }
 ];
-
+const loading = ref(true);
 onMounted(() => {
     // animations
+    setTimeout(() => {
+        loading.value = false;
+        animations();
+    }, 1000);
     window.scrollTo(0, 0);
-    gsap.utils.toArray('.why-card').forEach((box) => {
-        gsap.from(box, {
-            x: 100,
-            opacity: 0,
-            duration: 1,
-            scrollTrigger: {
-                trigger: box,
-                start: 'top 80%',
-                end: 'bottom 20%',
-                toggleActions: 'play reverse restart reverse'
-            }
-        });
-    });
-
-    gsap.utils.toArray('.left').forEach((box) => {
-        gsap.from(box, {
-            x: -100,
-            opacity: 0,
-            duration: 1,
-            scrollTrigger: {
-                trigger: box,
-                start: 'top 80%',
-                end: 'bottom 20%'
-            }
-        });
-    });
-    gsap.utils.toArray('.right').forEach((box) => {
-        gsap.from(box, {
-            x: 100,
-            opacity: 0,
-            duration: 1,
-            scrollTrigger: {
-                trigger: box,
-                start: 'top 80%',
-                end: 'bottom 20%'
-            }
-        });
-    });
 });
+
+const animations = () => {
+    setTimeout(() => {
+        gsap.utils.toArray('.left').forEach((box) => {
+            gsap.from(box, {
+                x: -100,
+                opacity: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: box,
+                    start: 'top 80%',
+                    end: 'bottom 20%'
+                }
+            });
+        });
+        gsap.utils.toArray('.right').forEach((box) => {
+            gsap.from(box, {
+                x: 100,
+                opacity: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: box,
+                    start: 'top 80%',
+                    end: 'bottom 20%'
+                }
+            });
+        });
+    }, 100);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -169,6 +173,27 @@ onMounted(() => {
             background-color: #4b9f61 !important; // Change to your desired color
             color: white;
         }
+    }
+}
+.skelton {
+    background: linear-gradient(to bottom right, rgba(187, 179, 179, 0.321), rgba(255, 254, 254, 0.096));
+    border-radius: 10px;
+    width: 100%;
+    animation: shimmer 2s infinite;
+    background-size: 200% 100%;
+
+    &.rectangle {
+        margin-top: 10px;
+        height: 50px;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
     }
 }
 </style>

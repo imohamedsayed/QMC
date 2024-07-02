@@ -17,7 +17,7 @@
                 </template>
             </v-breadcrumbs>
 
-            <div class="blog-content my-10">
+            <div class="blog-content my-10" v-if="!loading">
                 <div class="title mb-10">
                     <p class="animate__animated animate__fadeInDown">IMPORTANCE OF FINANCIAL CONTROL IN BUSINESS</p>
                     <span class="animate__animated animate__fadeInUp">30 Mars 2024</span>
@@ -49,6 +49,20 @@
 
                 <img src="@/assets/images/abstract/shape1.png" class="liquid-shape" alt="" />
             </div>
+
+            <div class="blog-content my-10" v-else>
+                <div class="skelton header mb-10"></div>
+                <v-progress-linear color="skin" indeterminate></v-progress-linear>
+
+                <div class="blog-img-text">
+                    <div class="skelton rectangle"></div>
+                    <div class="blog-details mt-10 left">
+                        <div class="skelton rectangle"></div>
+                    </div>
+                </div>
+
+                <img src="@/assets/images/abstract/shape1.png" class="liquid-shape" alt="" />
+            </div>
         </v-container>
     </div>
 </template>
@@ -73,37 +87,43 @@ const items = [
         href: 'blog'
     }
 ];
-const page = ref(1);
-
+const loading = ref(true);
 onMounted(() => {
+    setTimeout(() => {
+        loading.value = false;
+        animations();
+    }, 1000);
     // animations
     window.scrollTo(0, 0);
-
-    gsap.utils.toArray('.left').forEach((box) => {
-        gsap.from(box, {
-            x: -100,
-            opacity: 0,
-            duration: 1,
-            scrollTrigger: {
-                trigger: box,
-                start: 'top 80%',
-                end: 'bottom 20%'
-            }
-        });
-    });
-    gsap.utils.toArray('.right').forEach((box) => {
-        gsap.from(box, {
-            x: 100,
-            opacity: 0,
-            duration: 1,
-            scrollTrigger: {
-                trigger: box,
-                start: 'top 80%',
-                end: 'bottom 20%'
-            }
-        });
-    });
 });
+const animations = () => {
+    setTimeout(() => {
+        gsap.utils.toArray('.left').forEach((box) => {
+            gsap.from(box, {
+                x: -100,
+                opacity: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: box,
+                    start: 'top 80%',
+                    end: 'bottom 20%'
+                }
+            });
+        });
+        gsap.utils.toArray('.right').forEach((box) => {
+            gsap.from(box, {
+                x: 100,
+                opacity: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: box,
+                    start: 'top 80%',
+                    end: 'bottom 20%'
+                }
+            });
+        });
+    }, 100);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -185,6 +205,40 @@ onMounted(() => {
     }
     .blog-details {
         padding: 20px;
+    }
+}
+.skelton {
+    background: linear-gradient(to bottom right, rgba(187, 179, 179, 0.321), rgba(255, 254, 254, 0.096));
+    border-radius: 10px;
+    width: 100%;
+    animation: shimmer 2s infinite;
+    background-size: 200% 100%;
+    &.header {
+        height: 30px;
+        width: 400px;
+        margin: 0 auto;
+        margin-bottom: 16px;
+    }
+        height: 20px;
+    &.p {
+        margin-bottom: 8px;
+    }
+    &.card {
+        margin-top: 10px;
+        height: 200px;
+    }
+    &.rectangle {
+        margin-top: 10px;
+        height: 200px;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
     }
 }
 </style>

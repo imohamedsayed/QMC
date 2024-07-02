@@ -16,61 +16,93 @@
                     <v-icon icon="mdi-chevron-left"></v-icon>
                 </template>
             </v-breadcrumbs>
-            <div class="title text-center animate__animated animate__backInDown mb-10">
-                <p class="text-skin">{{ $t('services.title') }}</p>
-            </div>
+            <div v-if="!loading">
+                <div class="title text-center animate__animated animate__backInDown mb-10">
+                    <p class="text-skin">{{ $t('services.title') }}</p>
+                </div>
 
-            <div class="service-header px-8 elevation-1">
-                <div class="overlay"></div>
-                <v-row class="align-center content">
-                    <v-col cols="12" md="6">
-                        <img
-                            class="left"
-                            style="max-width: 400px; max-height: 400px"
-                            src="https://st.depositphotos.com/1000423/1637/i/450/depositphotos_16370285-stock-photo-hand-pushing-on-a-touch.jpg"
-                        />
-                    </v-col>
-                    <v-col cols="12" md="6">
-                        <div class="about-service right">
-                            <p class="about">{{ $t('services.about') }}</p>
-                            <p>
-                                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est aspernatur accusantium numquam sed, possimus
-                                quos debitis! Eos, possimus? Alias, praesentium eius error neque adipisci recusandae aliquid mollitia
-                                quibusdam repudiandae accusamus.
-                            </p>
-                        </div>
-                    </v-col>
-                </v-row>
-            </div>
+                <div class="service-header px-8 elevation-1">
+                    <div class="overlay"></div>
+                    <v-row class="align-center content">
+                        <v-col cols="12" md="6">
+                            <img
+                                class="left"
+                                style="max-width: 400px; max-height: 400px"
+                                src="https://st.depositphotos.com/1000423/1637/i/450/depositphotos_16370285-stock-photo-hand-pushing-on-a-touch.jpg"
+                            />
+                        </v-col>
+                        <v-col cols="12" md="6">
+                            <div class="about-service right">
+                                <p class="about">{{ $t('services.about') }}</p>
+                                <p>
+                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est aspernatur accusantium numquam sed,
+                                    possimus quos debitis! Eos, possimus? Alias, praesentium eius error neque adipisci recusandae aliquid
+                                    mollitia quibusdam repudiandae accusamus.
+                                </p>
+                            </div>
+                        </v-col>
+                    </v-row>
+                </div>
 
-            <hr />
-            <div class="service-content my-10">
-                <div class="content">
-                    <v-row>
-                        <v-col cols="12" md="4" lg="4" v-for="i in 6" :key="i">
-                            <v-card class="service right pa-2" @click="$router.push('/our-services/1')">
-                                <img
-                                    style="width: 100%"
-                                    src="https://st.depositphotos.com/1000423/1637/i/450/depositphotos_16370285-stock-photo-hand-pushing-on-a-touch.jpg"
-                                />
-                                <!-- <template v-slot:placeholder>
+                <hr />
+                <div class="service-content my-10">
+                    <div class="content">
+                        <v-row>
+                            <v-col cols="12" md="4" lg="4" v-for="i in 6" :key="i">
+                                <v-card class="service right pa-2" @click="$router.push('/our-services/1/2')">
+                                    <img
+                                        style="width: 100%"
+                                        src="https://st.depositphotos.com/1000423/1637/i/450/depositphotos_16370285-stock-photo-hand-pushing-on-a-touch.jpg"
+                                    />
+                                    <!-- <template v-slot:placeholder>
                                         <div class="d-flex align-center justify-center fill-height">
                                             <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
                                         </div>
                                     </template>
                                 </img> -->
-                                <v-card-title class="text-skin font-weight-bold">Service 1</v-card-title>
-                                <v-card-text
-                                    >Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima corrupti assumenda vitae enim incidunt
-                                    maxime doloremque neque ea, ducimus a.</v-card-text
-                                >
-                                <v-btn elevation="0" class="text-primary">{{ $t('services.learn') }}</v-btn>
-                            </v-card>
+                                    <v-card-title class="text-skin font-weight-bold">Service 1</v-card-title>
+                                    <v-card-text
+                                        >Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima corrupti assumenda vitae enim
+                                        incidunt maxime doloremque neque ea, ducimus a.</v-card-text
+                                    >
+                                    <v-btn elevation="0" class="text-primary">{{ $t('services.learn') }}</v-btn>
+                                </v-card>
+                            </v-col>
+                        </v-row>
+                    </div>
+                    <img src="@/assets/images/abstract/services4.svg" class="liquid-shape" alt="" />
+                    <img src="@/assets/images/abstract/services2.svg" class="liquid-shape l2" alt="" />
+                </div>
+            </div>
+            <div v-else>
+                <div class="skelton header"></div>
+                <v-progress-linear color="skin" indeterminate class="my-7"></v-progress-linear>
+                <div class="service-header px-8 elevation-1">
+                    <div class="overlay"></div>
+                    <v-row class="align-center content">
+                        <v-col cols="12" md="6">
+                            <div class="skelton card"></div>
+                        </v-col>
+                        <v-col cols="12" md="6">
+                            <div class="about-service right">
+                                <div class="skelton title"></div>
+                                <div class="skelton card" style="height: 100px"></div>
+                            </div>
                         </v-col>
                     </v-row>
                 </div>
-                <img src="@/assets/images/abstract/services1.svg" class="liquid-shape" alt="" />
-                <img src="@/assets/images/abstract/services2.svg" class="liquid-shape l2" alt="" />
+                <hr class="my-10" />
+                <div class="service-content my-10">
+                    <div class="content">
+                        <v-row>
+                            <v-col cols="12" md="4" lg="4" v-for="i in 6" :key="i">
+                                <div class="skelton card"></div>
+                            </v-col>
+                        </v-row>
+                    </div>
+                    <img src="@/assets/images/abstract/services4.svg" class="liquid-shape" alt="" />
+                    <img src="@/assets/images/abstract/services2.svg" class="liquid-shape l2" alt="" />
+                </div>
             </div>
         </v-container>
     </div>
@@ -82,7 +114,6 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n({ useScope: 'global' });
-import { IconUsersGroup } from '@tabler/icons-vue';
 gsap.registerPlugin(ScrollTrigger);
 const items = [
     {
@@ -92,40 +123,49 @@ const items = [
     },
     {
         title: t('bread.service'),
-        disabled: false,
+        disabled: true,
         href: '/our-services'
     }
 ];
 
-onMounted(() => {
-    // animations
-    window.scrollTo(0, 0);
+const loading = ref(true);
 
-    gsap.utils.toArray('.left').forEach((box) => {
-        gsap.from(box, {
-            x: -100,
-            opacity: 0,
-            duration: 1,
-            scrollTrigger: {
-                trigger: box,
-                start: 'top 80%',
-                end: 'bottom 20%'
-            }
-        });
-    });
-    gsap.utils.toArray('.right').forEach((box) => {
-        gsap.from(box, {
-            x: 100,
-            opacity: 0,
-            duration: 1,
-            scrollTrigger: {
-                trigger: box,
-                start: 'top 80%',
-                end: 'bottom 20%'
-            }
-        });
-    });
+onMounted(() => {
+    window.scrollTo(0, 0);
+    setTimeout(() => {
+        loading.value = false;
+        animations();
+    }, 1000);
 });
+
+const animations = () => {
+    setTimeout(() => {
+        gsap.utils.toArray('.left').forEach((box) => {
+            gsap.from(box, {
+                x: -100,
+                opacity: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: box,
+                    start: 'top 80%',
+                    end: 'bottom 20%'
+                }
+            });
+        });
+        gsap.utils.toArray('.right').forEach((box) => {
+            gsap.from(box, {
+                x: 100,
+                opacity: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: box,
+                    start: 'top 80%',
+                    end: 'bottom 20%'
+                }
+            });
+        });
+    }, 100);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -282,6 +322,45 @@ onMounted(() => {
                 }
             }
         }
+    }
+}
+.skelton {
+    background: linear-gradient(to bottom right, rgba(187, 179, 179, 0.321), rgba(255, 254, 254, 0.096));
+    border-radius: 10px;
+    width: 100%;
+    animation: shimmer 2s infinite;
+    background-size: 200% 100%;
+    &.header {
+        height: 20px;
+        width: 400px;
+        margin: 0 auto;
+        margin-bottom: 16px;
+    }
+    &.title {
+        height: 20px;
+        width: 300px;
+        margin-bottom: 16px;
+    }
+    &.p {
+        height: 20px;
+        margin-bottom: 8px;
+    }
+    &.card {
+        margin-top: 10px;
+        height: 200px;
+    }
+    &.rectangle {
+        margin-top: 10px;
+        height: 200px;
+    }
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+    100% {
+        background-position: 200% 0;
     }
 }
 </style>
