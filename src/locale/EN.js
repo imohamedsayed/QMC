@@ -95,5 +95,22 @@ export default {
         title: 'Our Services',
         learn: 'Learn More ..',
         about: 'About This Service'
+    },
+    side: {
+        main: 'Main Links',
+        home: 'Home',
+        services: 'Services',
+        contact: 'Contact us',
+        process: 'Our Process',
+        about: 'About us',
+        faq: 'FAQ',
+        clients: 'Our Clients',
+        blog: 'Blogs'
+    },
+    footer: {
+        quickLink: 'Quick Links',
+        contactUs: 'Contact Us',
+        social: 'Social Media',
+        reservation: 'Call us on'
     }
 };

@@ -2,11 +2,11 @@ import {
     IconHome,
     IconUser,
     IconUsersGroup,
-    IconDevicesPc,
+    IconTimeline,
     IconHeadphones,
-    IconShoppingBag,
-    IconHeart,
-    IconDiscount,
+    IconUsers,
+    IconNews,
+    IconHelpHexagon,
     IconDevices
 } from '@tabler/icons-vue';
 
@@ -33,48 +33,35 @@ const sidebarItem: menu[] = [
         to: '/'
     },
     {
-        title: 'profile',
-        icon: IconUser,
-        to: '/profile'
+        title: 'about',
+        icon: IconUsersGroup,
+        to: '/about-us'
     },
-    // { header: 'branch' },
-    // {
-    //     title: 'products',
-    //     icon: IconDevices,
-    //     to: '/products'
-    // },
-    // {
-    //     title: 'offers',
-    //     icon: IconDiscount,
-    //     to: '/offers'
-    // },
-    // {
-    //     title: 'about',
-    //     icon: IconUsersGroup,
-    //     to: '/about-us'
-    // },
-    // {
-    //     title: 'contact',
-    //     icon: IconHeadphones,
-    //     to: '/contact-us'
-    // },
-    // {
-    //     title: 'build',
-    //     icon: IconDevicesPc,
-    //     to: '/build-ur-bundle'
-    // },
-    // {
-    //     title: 'cart',
-    //     icon: IconShoppingBag,
-    //     to: '/cart'
-    // },
-    // {
-    //     title: 'wishlist',
-    //     icon: IconHeart,
-    //     to: '/wish-list'
-    // },
-
-    // { header: 'extra' }
+    {
+        title: 'process',
+        icon: IconTimeline,
+        to: '/our-process'
+    },
+    {
+        title: 'clients',
+        icon: IconUsers,
+        to: '/our-clients'
+    },
+    {
+        title: 'contact',
+        icon: IconHeadphones,
+        to: '/contact-us'
+    },
+    {
+        title: 'blog',
+        icon: IconNews,
+        to: '/blogs'
+    },
+    {
+        title: 'faq',
+        icon: IconHelpHexagon,
+        to: '/FAQs'
+    }
 ];
 
 export default sidebarItem;

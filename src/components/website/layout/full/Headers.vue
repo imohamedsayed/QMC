@@ -83,34 +83,20 @@
                         <NavItem :item="item" v-else class="leftPadding" :key="item" />
                         <!---End Single Item-->
                     </template>
-                    <!-- <v-expansion-panels>
+                    <v-expansion-panels>
                         <v-expansion-panel elevation="0">
                             <v-expansion-panel-title :class="$i18n.locale == 'EN' ? 'px-1' : 'px-2'">
-                                <v-icon class="mx-2">mdi-devices</v-icon>{{ $t('header.categories') }}
+                                <v-icon class="mx-2">mdi-briefcase-outline</v-icon>{{ $t('header.services') }}
                             </v-expansion-panel-title>
+                            <v-expansion-panel-text>
+                                <v-list>
+                                    <v-list-item color="primary" v-for="i in 5" :key="i" :value="'service ' + o" :to="'/our-services/' + i">
+                                        <v-list-item-title>{{ 'Service ' + i }}</v-list-item-title>
+                                    </v-list-item>
+                                </v-list>
+                            </v-expansion-panel-text>
                         </v-expansion-panel>
-                    </v-expansion-panels> -->
-                    <v-list-item to="/login" rounded class="mb-1" active-color="primary" v-if="!user">
-                        <!---If icon-->
-                        <template v-slot:prepend>
-                            <IconLogin />
-                        </template>
-                        <v-list-item-title>{{ $t(`side.login`) }}</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item to="/register" rounded class="mb-1" active-color="primary" v-if="!user">
-                        <!---If icon-->
-                        <template v-slot:prepend>
-                            <IconUserPlus />
-                        </template>
-                        <v-list-item-title>{{ $t(`side.signup`) }}</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item rounded class="mb-1" active-color="primary" v-if="user" @click="logout">
-                        <!---If icon-->
-                        <template v-slot:prepend>
-                            <IconLogout />
-                        </template>
-                        <v-list-item-title>{{ $t(`side.logout`) }}</v-list-item-title>
-                    </v-list-item>
+                    </v-expansion-panels>
                 </v-list>
                 <!-- <div class="pa-4">
                     <ExtraBox />

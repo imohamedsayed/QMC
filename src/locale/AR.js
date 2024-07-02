@@ -99,5 +99,22 @@ export default {
         title: 'الخدمات التى نقدمها',
         learn: 'معرفة المزيد',
         about: 'عن هذه الخدمة'
+    },
+    side: {
+        main: 'الروابط الأساسية',
+        home: 'الصفحة الرئيسية',
+        services: 'الخدمات',
+        contact: 'تواصل معنا',
+        process: 'الية عملنآ',
+        about: 'من نحن',
+        faq: 'الاسئلة الشائعة',
+        clients: 'عملائنا',
+        blog: 'المدونة'
+    },
+    footer: {
+        quickLink: 'روابط سريعة',
+        contactUs: 'تواصل معنا',
+        social: 'روابط السوشيال ميديا',
+        reservation: 'هاتفنا على : '
     }
 };

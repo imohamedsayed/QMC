@@ -135,7 +135,7 @@ onMounted(() => {
     setTimeout(() => {
         loading.value = false;
         animations();
-    }, 1000);
+    }, 3000);
 });
 
 const animations = () => {

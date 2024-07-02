@@ -1,5 +1,4 @@
 <template>
- 
     <footer class="footer pa-4 text-center text-md-start">
         <v-row class="">
             <v-col cols="12" md="6" lg="3" class="mt-5">
@@ -10,10 +9,10 @@
             <v-col cols="12" md="6" lg="3" class="mt-5">
                 <p class="text-green">{{ $t('footer.quickLink') }}</p>
                 <div class="mt-5">
-                    <v-list-item color="blueLogo" :title="$t('footer.link1')" to="/"> </v-list-item>
-                    <v-list-item color="blueLogo" :title="$t('footer.link2')" to="/about-us"> </v-list-item>
-                    <v-list-item color="blueLogo" :title="$t('footer.link3')" to="/contact-us"> </v-list-item>
-                    <v-list-item color="blueLogo" :title="$t('header.link4')" to="/login"> </v-list-item>
+                    <v-list-item color="blueLogo" :title="$t('header.home')" to="/"> </v-list-item>
+                    <v-list-item color="blueLogo" :title="$t('header.about')" to="/about-us"> </v-list-item>
+                    <v-list-item color="blueLogo" :title="$t('header.services')" to="/our-services"> </v-list-item>
+                    <v-list-item color="blueLogo" :title="$t('header.clients')" to="/our-clients"> </v-list-item>
                 </div>
             </v-col>
             <v-col cols="12" md="6" lg="3" class="mt-5 text-blueLogo">
