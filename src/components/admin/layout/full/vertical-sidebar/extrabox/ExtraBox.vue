@@ -7,7 +7,7 @@
                 </div>
 
                 <div class="pr-1">
-                    <h6 class="text-h6 mb-0">{{ admin.fullName || 'Admin' }}</h6>
+                    <h6 class="text-h6 mb-0">{{ admin.name || 'Admin' }}</h6>
 
                     <span class="font-12-regular">{{ admin.role_name }}</span>
                 </div>

@@ -1,17 +1,17 @@
 <template>
     <v-row>
         <v-col cols="12" md="12">
-            <UiParentCard title="edit services section" :loading="state.loading">
+            <UiParentCard title="Add a new why-us box" :loading="state.loading">
                 <div class="pa-10">
-                    <form @submit.prevent="edit">
+                    <form @submit.prevent="add">
                         <v-row class="align-center">
                             <v-col cols="12" md="6">
                                 <v-text-field
                                     v-model="state.name_en"
-                                    label="Name (English)"
+                                    label="Title (English)"
                                     variant="outlined"
                                     color="primary"
-                                    prepend-inner-icon="mdi-text"
+                                    prepend-inner-icon="mdi-card-bulleted-outline"
                                     :error-messages="v$.name_en.$error ? v$.name_en.$errors[0].$message : ''"
                                 >
                                 </v-text-field>
@@ -19,10 +19,10 @@
                             <v-col cols="12" md="6">
                                 <v-text-field
                                     v-model="state.name_ar"
-                                    label="Name (Arabic)"
+                                    label="Title (Arabic)"
                                     variant="outlined"
                                     color="primary"
-                                    prepend-inner-icon="mdi-text"
+                                    prepend-inner-icon="mdi-card-bulleted-outline"
                                     :error-messages="v$.name_ar.$error ? v$.name_ar.$errors[0].$message : ''"
                                 >
                                 </v-text-field>
@@ -50,21 +50,20 @@
                                 </v-textarea>
                             </v-col>
                             <v-col cols="12" md="6">
-                                <v-file-input
-                                    class="bg-white align-center"
-                                    label="Service Section Image"
+                                <v-text-field
+                                    v-model="state.icon"
+                                    label="Icon"
                                     variant="outlined"
-                                    prepend-inner-icon="mdi-image"
                                     color="primary"
-                                    v-model="state.cover"
-                                    prepend-icon="false"
+                                    prepend-inner-icon="mdi-emoticon-excited-outline"
+                                    :error-messages="v$.name_ar.$error ? v$.name_ar.$errors[0].$message : ''"
                                 >
                                     <template v-slot:append>
-                                        <v-img v-if="state.cover.length" :src="getImageUrl()" width="80" height="53"></v-img>
-                                        <v-img v-else :src="apiUrl + state.path + state.storedImage" width="80" height="53"></v-img>
+                                        <v-icon v-if="state.icon" class="text-green">{{ 'mdi-' + state.icon }}</v-icon>
                                     </template>
-                                </v-file-input>
+                                </v-text-field>
                             </v-col>
+
                             <v-col cols="12" md="6" class="pl-13">
                                 <p class="text-weight-bold">status:</p>
                                 <v-switch
@@ -76,7 +75,7 @@
                             </v-col>
                         </v-row>
                         <div class="text-center mt-10">
-                            <v-btn flat size="large" color="primary" type="submit" :loading="state.loading"> Edit</v-btn>
+                            <v-btn flat size="large" color="primary" type="submit" :loading="state.loading"> Add</v-btn>
                         </div>
                     </form>
                 </div>
@@ -92,46 +91,23 @@ import { required } from '@vuelidate/validators';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { useAuthStore } from '@/stores/AuthStore';
+
 import UiParentCard from '@/components/shared/UiParentCard.vue';
 export default {
     components: { UiParentCard },
-    props: ['id'],
-    setup(props) {
+    setup() {
         const state = reactive({
             name_ar: '',
             name_en: '',
             description_en: '',
             description_ar: '',
-            cover: '',
-            path: '',
-            status: false,
-            loading: true,
-            storedImage: ''
+            icon: '',
+            status: true,
+            loading: false
         });
-        const apiUrl = import.meta.env.VITE_API_URL;
+
         onMounted(async () => {
             if (!useAuthStore().getAdmin) useRouter().push({ name: 'adminLogin' });
-            state.loading = true;
-            try {
-                const res = await axios.get('api_dashboard/services/' + props.id);
-                if (res.status == 200) {
-                    const service = res.data.data;
-                    state.name_ar = service.name_ar;
-                    state.name_en = service.name_en;
-                    state.description_ar = service.description_ar;
-                    state.description_en = service.description_en;
-                    state.path = service.ImagePath;
-
-                    state.storedImage = service.media?.name || null;
-
-                    state.status = Boolean(Number(service.status));
-                } else {
-                    throw new Error(res.response.data.message);
-                }
-            } catch (error) {
-                toast.error(error.message);
-            }
-            state.loading = false;
         });
 
         const rules = computed(() => {
@@ -139,12 +115,13 @@ export default {
                 name_en: { required },
                 name_ar: { required },
                 description_en: { required },
-                description_ar: { required }
+                description_ar: { required },
+                icon: { required }
             };
         });
         const v$ = useVuelidate(rules, state);
 
-        const edit = async () => {
+        const add = async () => {
             v$.value.$validate();
             if (!v$.value.$error) {
                 state.loading = true;
@@ -154,17 +131,14 @@ export default {
                         name_ar: state.name_ar,
                         description_en: state.description_en,
                         description_ar: state.description_ar,
-                        image: state.cover[0],
+                        icon: state.icon,
                         status: Number(state.status).toString()
                     };
 
-                    const res = await axios.post('api_dashboard/services/' + props.id, data, {
-                        headers: {
-                            'Content-Type': 'multipart/form-data'
-                        }
-                    });
-                    if (res.status == 202) {
-                        toast.success('Services Section updated successfully');
+                    const res = await axios.post('api_dashboard/whyus', data);
+
+                    if (res.status == 201) {
+                        toast.success('Why-us Box Added Successfully');
                     } else {
                         throw new Error(res.response.data.message);
                     }
@@ -182,15 +156,7 @@ export default {
             }
         };
 
-        const getImageUrl = () => {
-            if (state.cover.length) {
-                return window.URL.createObjectURL(state.cover[0]);
-            } else {
-                return '';
-            }
-        };
-
-        return { state, getImageUrl, v$, edit, apiUrl };
+        return { state, v$, add };
     }
 };
 </script>

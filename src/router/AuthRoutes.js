@@ -11,30 +11,7 @@ const AuthRoutes = {
             component: () => import('@/views/auth/AdminLogin.vue'),
             meta: { title: 'Admin Login' }
         },
-        {
-            name: 'Register',
-            path: '/register',
-            component: () => import('@/views/auth/Register.vue'),
-            meta: { title: 'Register' }
-        },
-        {
-            name: 'login',
-            path: '/login',
-            component: () => import('@/views/auth/Login.vue'),
-            meta: { title: 'Login' }
-        },
-        {
-            name: 'forgetPassword',
-            path: '/forget-password',
-            component: () => import('@/views/website/ForgetPassword.vue'),
-            meta: { title: 'Forget Password' }
-        },
-        {
-            name: 'ResetPassword',
-            path: '/reset-password',
-            component: () => import('@/views/website/ResetPassword.vue'),
-            meta: { title: 'Reset Password' }
-        },
+
         {
             name: 'AdminForgetPassword',
             path: '/auth/dashboard/forget-password',

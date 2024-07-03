@@ -8,7 +8,6 @@
                             <div class="d-flex justify-center py-4" @click="$router.push('/')">
                                 <img src="@/assets/images/logo.png" width="200" height="120" />
                             </div>
-                            <div class="text-body-1 text-muted text-center mb-3">Future for computer hardware</div>
                             <form @submit.prevent="resetPassword">
                                 <v-row class="d-flex mb-3">
                                     <v-col cols="12">
@@ -92,7 +91,6 @@ export default {
                         token: route.query.token,
                         password: state.password,
                         password_confirmation: state.passwordConfirm,
-                        isAdmin: 1
                     });
                     if ((res.status = 200)) {
                         toast.success('Password was successfully changed', { autoClose: 1000 });

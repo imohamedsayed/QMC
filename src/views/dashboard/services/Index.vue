@@ -3,7 +3,7 @@
         <v-col cols="12" md="12">
             <UiParentCard title="Services">
                 <div class="text-end mr-10">
-                    <v-btn color="primary" @click="$router.push({ name: 'AddChildService' })"
+                    <v-btn color="primary" @click="$router.push({ name: 'AddService' })"
                         ><v-icon class="mr-2">mdi-plus</v-icon> Add new Services Section</v-btn
                     >
                 </div>

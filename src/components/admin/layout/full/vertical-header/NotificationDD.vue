@@ -36,25 +36,6 @@
                                     <v-avatar size="40" icon="mdi-bell-outline" color="primary" />
                                 </template>
                             </v-list-item>
-                            <v-list-item
-                                v-if="n.data.order"
-                                :class="['mb-3', n.read_at == null ? 'bg-primary' : '', 'notification']"
-                                :title="n.data.order.Status == 'NEW ORDER' ? 'New Order Received' : 'New Order Update'"
-                                color="primary"
-                                :to="'/dashboard/orders/' + n.data.order.orderId"
-                            >
-                                <v-list-item-subtitle>
-                                    <span>{{ n.data.order.Status }}</span
-                                    ><br />
-                                    <span class="mt-2 d-inline-block">{{ n.created_at }}</span
-                                    ><br />
-                                </v-list-item-subtitle>
-
-                                <template #prepend>
-                                    <!-- image="/assets/images/users/1.jpg" -->
-                                    <v-avatar size="40" icon="mdi-bell-outline" color="primary" />
-                                </template>
-                            </v-list-item>
                         </div>
                     </div>
                 </v-list>
@@ -97,7 +78,6 @@ const loadNotifications = async () => {
         const res = await axios.get('api_dashboard/notifications-unread');
         if (res.status == 200) {
             notifications.value = res.data.notifications;
-            console.log(notifications.value);
         } else {
             throw new Error(res.response.data.message);
         }

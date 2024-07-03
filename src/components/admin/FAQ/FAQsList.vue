@@ -16,23 +16,20 @@
             <template #header-action="header">
                 {{ header.text }}
             </template>
-            <template #item-cover="item">
-                <v-img :src="apiUrl + item.cover" width="120" height="60">
-                    <template v-slot:placeholder>
-                        <div class="d-flex align-center justify-center fill-height">
-                            <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
-                        </div>
-                    </template>
-                </v-img>
-            </template>
-            <template #item-message="item">
-                {{ item.message.substring(0, 20) + ' ...' }}
-            </template>
 
+            <template #item-question_en="item">
+                {{ item.question_en.substring(0, 50) + ' ...' }}
+            </template>
+            <template #item-question_ar="item">
+                {{ item.question_ar.substring(0, 50) + ' ...' }}
+            </template>
+            <template #item-status="item">
+                <v-chip :color="item.status == '1' ? 'info' : 'error'">{{ item.status == 1 ? 'Enabled' : 'Disabled' }}</v-chip>
+            </template>
             <template #item-action="item">
-                <v-btn icon elevation="0" class="mr-2" @click="$router.push({ name: 'Message', params: { id: item.id } })"
-                    ><v-icon color="skin">mdi-eye</v-icon>
-                    <v-tooltip activator="parent">View Message's Details</v-tooltip>
+                <v-btn icon elevation="0" class="mr-2" @click="$router.push({ name: 'EditFAQ', params: { id: item.id } })"
+                    ><v-icon color="primary">mdi-pencil</v-icon>
+                    <v-tooltip activator="parent">Edit FAQ </v-tooltip>
                 </v-btn>
                 <v-btn icon elevation="0" class="mr-2" @click="deleteItem(item.id)"
                     ><v-icon color="error">mdi-delete-outline</v-icon>
@@ -51,23 +48,11 @@
         </EasyDataTable>
         <v-dialog v-model="dialog" width="500" transition="dialog-top-transition" persistent>
             <v-card class="pa-4" :loading="loading">
-                <v-card-title>Do you really want to delete this ticket?</v-card-title>
-                <v-card-text>After confirming the deletion of this ticket you cannot undo the changes you made</v-card-text>
+                <v-card-title>Do you really want to delete this FAQ ?</v-card-title>
+                <v-card-text>After confirming the deletion you cannot undo the changes you made</v-card-text>
                 <v-card-actions class="mt-5 text-center">
                     <v-btn @click="dialog = false" color="success"> <v-icon>mdi-close</v-icon>Cancel</v-btn>
                     <v-btn @click="confirmDeleteItem" color="error" class="mr-5" :loading="loading">
-                        <v-icon>mdi-check</v-icon>Confirm
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
-        <v-dialog v-model="repliesDialog" width="500" transition="dialog-top-transition" persistent>
-            <v-card class="pa-4" :loading="loading">
-                <v-card-title>Do you really want to delete this ticket's all replies?</v-card-title>
-                <v-card-text>After confirming the deletion of this ticket's replies you cannot undo the changes you made</v-card-text>
-                <v-card-actions class="mt-5 text-center">
-                    <v-btn @click="repliesDialog = false" color="success"> <v-icon>mdi-close</v-icon>Cancel</v-btn>
-                    <v-btn @click="confirmDeleteReplies" color="error" class="mr-5" :loading="loading">
                         <v-icon>mdi-check</v-icon>Confirm
                     </v-btn>
                 </v-card-actions>
@@ -82,18 +67,17 @@ import { toast } from 'vue3-toastify';
 import { onMounted, ref, watch } from 'vue';
 
 // vars
-let search = ref('');
 let loading = ref(false);
 let dialog = ref(false);
-let repliesDialog = ref(false);
 let id = ref('');
+
 const apiUrl = import.meta.env.VITE_API_URL;
+
 const headers = ref([
     { text: 'Id', value: 'id', sortable: true },
-    { text: 'User Name', value: 'name' },
-    { text: 'User Email', value: 'email' },
-    { text: 'User Phone', value: 'mobile' },
-    { text: 'Message', value: 'message' },
+    { text: 'Question (En)', value: 'question_en' },
+    { text: 'Question (Ar)', value: 'question_ar' },
+    { text: 'Status', value: 'status' },
     { text: 'Action', value: 'Action' }
 ]);
 let items = ref([]);
@@ -110,9 +94,9 @@ const serverOptions = ref({
 const loadItems = async () => {
     loading.value = true;
     try {
-        const res = await axios.get('api_dashboard/messages?page=' + serverOptions.value.page);
+        const res = await axios.get('api_dashboard/faqs?page=' + serverOptions.value.page);
         if (res.status === 200) {
-            items.value = res.data.messages;
+            items.value = res.data.faqs;
             const serverOption = res.data.meta.pagination;
             serverItemsLength.value = serverOption.total;
             serverOptions.value.page = serverOption.current_page;
@@ -143,32 +127,11 @@ const deleteItem = (idd) => {
 const confirmDeleteItem = async () => {
     loading.value = true;
     try {
-        const res = await axios.delete('api_dashboard/messages/' + id.value);
+        const res = await axios.delete('api_dashboard/faqs/' + id.value);
         if (res.status == 204) {
-            toast.success('Ticket Deleted Successfully', { autoClose: 1000 });
+            toast.success('FAQ Deleted Successfully', { autoClose: 1000 });
             dialog.value = false;
             loadItems();
-        } else {
-            throw new Error(res.response.data.message);
-        }
-    } catch (error) {
-        toast.error(error.message);
-    }
-    loading.value = false;
-};
-const deleteItemReplies = (idd) => {
-    id.value = idd;
-    repliesDialog.value = true;
-};
-const confirmDeleteReplies = async () => {
-    loading.value = true;
-    try {
-        const res = await axios.delete('api_dashboard/replies-all/' + id.value);
-        if (res.status == 204) {
-            toast.success("Ticket's Replies Deleted Successfully", { autoClose: 1000 });
-            setTimeout(() => {
-                location.reload();
-            }, 1000);
         } else {
             throw new Error(res.response.data.message);
         }

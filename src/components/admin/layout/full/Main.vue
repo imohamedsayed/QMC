@@ -11,7 +11,7 @@
     >
         <!---Logo part -->
         <div class="d-flex justify-center py-4 text-center cursor-pointer pa-5" @click="$router.push('/')">
-            <img src="@/assets/images/logo.png" width="100" height="100" />
+            <img src="@/assets/images/logo.png" width="80" height="60" />
         </div>
 
         <!-- ---------------------------------------------- -->

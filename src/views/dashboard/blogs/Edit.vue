@@ -1,7 +1,7 @@
 <template>
     <v-row>
         <v-col cols="12" md="12">
-            <UiParentCard title="edit services section" :loading="state.loading">
+            <UiParentCard title="Edit blog" :loading="state.loading">
                 <div class="pa-10">
                     <form @submit.prevent="edit">
                         <v-row class="align-center">
@@ -11,7 +11,7 @@
                                     label="Name (English)"
                                     variant="outlined"
                                     color="primary"
-                                    prepend-inner-icon="mdi-text"
+                                    prepend-inner-icon="mdi-post-outline"
                                     :error-messages="v$.name_en.$error ? v$.name_en.$errors[0].$message : ''"
                                 >
                                 </v-text-field>
@@ -22,7 +22,7 @@
                                     label="Name (Arabic)"
                                     variant="outlined"
                                     color="primary"
-                                    prepend-inner-icon="mdi-text"
+                                    prepend-inner-icon="mdi-post-outline"
                                     :error-messages="v$.name_ar.$error ? v$.name_ar.$errors[0].$message : ''"
                                 >
                                 </v-text-field>
@@ -52,7 +52,7 @@
                             <v-col cols="12" md="6">
                                 <v-file-input
                                     class="bg-white align-center"
-                                    label="Service Section Image"
+                                    label="blog Image"
                                     variant="outlined"
                                     prepend-inner-icon="mdi-image"
                                     color="primary"
@@ -113,18 +113,18 @@ export default {
             if (!useAuthStore().getAdmin) useRouter().push({ name: 'adminLogin' });
             state.loading = true;
             try {
-                const res = await axios.get('api_dashboard/services/' + props.id);
+                const res = await axios.get('api_dashboard/blogs/' + props.id);
                 if (res.status == 200) {
-                    const service = res.data.data;
-                    state.name_ar = service.name_ar;
-                    state.name_en = service.name_en;
-                    state.description_ar = service.description_ar;
-                    state.description_en = service.description_en;
-                    state.path = service.ImagePath;
+                    const blog = res.data.data;
+                    state.name_ar = blog.name_ar;
+                    state.name_en = blog.name_en;
+                    state.description_ar = blog.description_ar;
+                    state.description_en = blog.description_en;
+                    state.path = blog.ImagePath;
 
-                    state.storedImage = service.media?.name || null;
+                    state.storedImage = blog.media?.name || null;
 
-                    state.status = Boolean(Number(service.status));
+                    state.status = Boolean(Number(blog.status));
                 } else {
                     throw new Error(res.response.data.message);
                 }
@@ -158,13 +158,13 @@ export default {
                         status: Number(state.status).toString()
                     };
 
-                    const res = await axios.post('api_dashboard/services/' + props.id, data, {
+                    const res = await axios.post('api_dashboard/blogs/' + props.id, data, {
                         headers: {
                             'Content-Type': 'multipart/form-data'
                         }
                     });
                     if (res.status == 202) {
-                        toast.success('Services Section updated successfully');
+                        toast.success('Blog updated successfully');
                     } else {
                         throw new Error(res.response.data.message);
                     }

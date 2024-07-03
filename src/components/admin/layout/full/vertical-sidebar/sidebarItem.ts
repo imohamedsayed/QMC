@@ -1,6 +1,24 @@
 import { LayoutDashboardIcon } from 'vue-tabler-icons';
 
-import { IconBriefcase, IconSettings, IconMessages, IconBriefcase2, IconCategory, IconCategoryPlus } from '@tabler/icons-vue';
+import {
+    IconBriefcase,
+    IconSettings,
+    IconMessages,
+    IconBriefcase2,
+    IconCategory,
+    IconCategoryPlus,
+    IconTimeline,
+    IconCirclePlus,
+    IconIdBadge2,
+    IconId,
+    IconUsers,
+    IconUsersPlus,
+    IconArticle,
+    IconFilePlus,
+    IconHelpOctagon,
+    IconHelpHexagonFilled,
+    IconUser
+} from '@tabler/icons-vue';
 
 export interface menu {
     header?: string;
@@ -29,6 +47,17 @@ const sidebarItem: menu[] = [
         icon: IconMessages,
         to: '/dashboard/tickets'
     },
+    { header: 'Why us' },
+    {
+        title: 'Why Us ',
+        icon: IconId,
+        to: '/dashboard/why-us'
+    },
+    {
+        title: 'Add Why-us box',
+        icon: IconIdBadge2,
+        to: '/dashboard/why-us/add'
+    },
     { header: 'Services' },
     {
         title: 'Service Sections',
@@ -50,7 +79,56 @@ const sidebarItem: menu[] = [
         icon: IconBriefcase2,
         to: '/dashboard/child-services/add'
     },
+    { header: 'Our Process' },
+    {
+        title: 'Processes',
+        icon: IconTimeline,
+        to: '/dashboard/processes'
+    },
+    {
+        title: 'Add Process',
+        icon: IconCirclePlus,
+        to: '/dashboard/processes/add'
+    },
+    { header: 'Our Clients' },
+    {
+        title: 'Clients',
+        icon: IconUsers,
+        to: '/dashboard/clients'
+    },
+    {
+        title: 'Add Client',
+        icon: IconUsersPlus,
+        to: '/dashboard/clients/add'
+    },
+    { header: 'Blogs' },
+    {
+        title: 'Blogs',
+        icon: IconArticle,
+        to: '/dashboard/blogs'
+    },
+    {
+        title: 'Add Blog',
+        icon: IconFilePlus,
+        to: '/dashboard/blogs/add'
+    },
+    { header: 'FAQs' },
+    {
+        title: 'FAQs',
+        icon: IconHelpHexagonFilled,
+        to: '/dashboard/faqs'
+    },
+    {
+        title: 'Add FAQ',
+        icon: IconHelpOctagon,
+        to: '/dashboard/faqs/add'
+    },
     { header: 'Extra' },
+    {
+        title: 'Admin Settings',
+        icon: IconUser,
+        to: '/dashboard/admin/settings'
+    },
     {
         title: 'Settings',
         icon: IconSettings,

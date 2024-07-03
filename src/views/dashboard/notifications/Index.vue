@@ -7,7 +7,7 @@
 
                     <div class="skelton" v-for="i in 6" :key="i"></div>
                 </div>
-                <div v-else-if="!loading && notifications.length">
+                <div v-else-if="!loading && notifications.length" class="pa-4">
                     <v-list density="default" lines="two" class="px-10 bg-white" style="overflow-x: hidden">
                         <div v-for="n in notifications" :key="n.id">
                             <v-list-item
@@ -29,25 +29,7 @@
                                     <v-avatar size="40" icon="mdi-bell-outline" color="primary" />
                                 </template>
                             </v-list-item>
-                            <v-list-item
-                                v-if="n.data.order"
-                                :class="['mb-3', n.read_at == null ? 'bg-primary' : '', 'pa-6', 'notification']"
-                                :title="n.data.order.Status == 'NEW ORDER' ? 'New Order Received' : 'New Order Update'"
-                                color="primary"
-                                :to="'/dashboard/orders/' + n.data.order.orderId"
-                            >
-                                <v-list-item-subtitle>
-                                    <span>{{ n.data.order.Status }}</span
-                                    ><br />
-                                    <span class="mt-2 d-inline-block">{{ n.created_at }}</span
-                                    ><br />
-                                </v-list-item-subtitle>
-
-                                <template #prepend>
-                                    <!-- image="/assets/images/users/1.jpg" -->
-                                    <v-avatar size="40" icon="mdi-bell-outline" color="primary" />
-                                </template>
-                            </v-list-item>
+                        
                         </div>
                     </v-list>
                     <div class="px-10">
@@ -56,12 +38,10 @@
                         </v-btn>
                     </div>
                 </div>
-                <div v-else class="text-center">
+                <div v-else class="text-center pa-8">
                     <v-icon size="200" class="mb-2" color="warning">mdi-bell-off-outline</v-icon>
                     <p class="text-error font-weight-bold" style="font-size: 1.2rem" v-if="err">{{ err }}</p>
-                    <p class="text-muted font-weight-bold" style="font-size: 1.2rem" v-else>
-                        {{ $t('notification.noNotifications') }}
-                    </p>
+                    <p class="text-muted font-weight-bold" style="font-size: 1.2rem" v-else>You have no notifications available</p>
                 </div>
             </UiParentCard>
         </v-col>
@@ -76,8 +56,8 @@ import { toast } from 'vue3-toastify';
 import axios from 'axios';
 
 const admin = computed(() => useAuthStore().getAdmin);
-const loading = ref  (false);
-const markLoading = ref ( false);
+const loading = ref(false);
+const markLoading = ref(false);
 const notifications = ref([]);
 const err = ref('');
 onMounted(async () => {

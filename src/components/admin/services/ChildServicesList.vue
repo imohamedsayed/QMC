@@ -1,12 +1,5 @@
 <template>
     <div class="pa-8 pb-16">
-        <v-row class="justify-space-between">
-            <v-col cols="12" md="3">
-                <v-text-field v-model="search" color="primary" label="search service" prepend-inner-icon="mdi-magnify" variant="outlined">
-                </v-text-field>
-            </v-col>
-            <v-col cols="12" md="3"></v-col>
-        </v-row>
         <EasyDataTable
             :loading="loading"
             buttons-pagination
@@ -14,7 +7,6 @@
             table-class-name="customize-table"
             :headers="headers"
             :items="items"
-            :search-value="search"
             :server-items-length="serverItemsLength"
             v-model:server-options="serverOptions"
         >
@@ -104,7 +96,7 @@ let pathImage = ref('');
 const serverItemsLength = ref(0);
 const serverOptions = ref({
     page: 1,
-    rowsPerPage: 16,
+    rowsPerPage: 10,
     sortBy: 'id',
     sortType: 'desc'
 });
@@ -116,7 +108,6 @@ const loadItems = async () => {
         const res = await axios.get(`api_dashboard/sections?page=` + serverOptions.value.page);
         if (res.status === 200) {
             items.value = res.data.sections;
-            console.log(items.value);
             pathImage.value = res.data.path_image;
             const serverOption = res.data.meta.pagination;
             serverItemsLength.value = serverOption.total;
@@ -151,9 +142,8 @@ const confirmDeleteItem = async () => {
         const res = await axios.delete('api_dashboard/sections/' + id.value);
         if (res.status == 204) {
             toast.success('Service Deleted Successfully', { autoClose: 1000 });
-            setTimeout(() => {
-                location.reload();
-            }, 1000);
+            dialog.value = false;
+            loadItems();
         } else {
             throw new Error(res.response.data.message);
         }
