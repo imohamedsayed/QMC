@@ -21,23 +21,30 @@
                     <p class="text-skin">{{ $t('services.title') }}</p>
                 </div>
                 <div class="services-list mt-10">
-                    <v-row v-if="!loading">
-                        <v-col cols="12" md="4" lg="4" v-for="i in 6" :key="i">
-                            <v-card class="service right pa-2" prepend-avatar="./logo.png" @click="$router.push('/our-services/1')">
-                                <img
-                                    style="width: 100%"
-                                    src="https://st.depositphotos.com/1000423/1637/i/450/depositphotos_16370285-stock-photo-hand-pushing-on-a-touch.jpg"
-                                />
-
-                                <v-card-title class="text-skin font-weight-bold">Service 1</v-card-title>
-                                <v-card-text
-                                    >Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima corrupti assumenda vitae enim incidunt
-                                    maxime doloremque neque ea, ducimus a.</v-card-text
+                    <div v-if="!loading">
+                        <v-row v-if="services.length">
+                            <v-col cols="12" md="4" lg="4" v-for="service in services" :key="service.id">
+                                <v-card
+                                    class="service right pa-2"
+                                    :prepend-avatar="apiUrl + logo.ImagePath + logo.media?.name"
+                                    @click="$router.push('/our-services/' + service.id)"
                                 >
-                                <v-btn elevation="0" class="text-primary">{{ $t('services.learn') }}</v-btn>
-                            </v-card>
-                        </v-col>
-                    </v-row>
+                                    <img style="width: 100%; max-height: 400px" :src="apiUrl + service.ImagePath + service.media?.name" />
+
+                                    <v-card-title class="text-skin font-weight-bold">{{ service.name }}</v-card-title>
+                                    <v-card-text>{{ service.description.substring(0, 120) }}</v-card-text>
+                                    <v-btn elevation="0" class="text-primary">{{ $t('services.learn') }}</v-btn>
+                                </v-card>
+                            </v-col>
+                        </v-row>
+                        <div v-else class="text-center not-found">
+                            <img class="mx-auto text-center" width="500" src="../../assets/images/background/services.svg" />
+                            <p class="font-weight-bold text-center" style="font-size: 1.2rem; text-align: center">
+                                {{ $t('services.noServices') }}
+                            </p>
+                        </div>
+                    </div>
+
                     <v-row v-else>
                         <v-progress-linear color="skin" indeterminate class="my-4"></v-progress-linear>
 
@@ -56,10 +63,18 @@
 <script setup>
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { toast } from 'vue3-toastify';
+import axios from 'axios';
+import { useSettingsStore } from '@/stores/SettingsStore';
+const settingsStore = useSettingsStore();
+
+const logo = computed(() => settingsStore.getSettingByKey('logo'));
+
 const { t } = useI18n({ useScope: 'global' });
 gsap.registerPlugin(ScrollTrigger);
+
 const items = [
     {
         title: t('bread.services'),
@@ -67,13 +82,27 @@ const items = [
         href: '/our-services'
     }
 ];
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const loading = ref(true);
-onMounted(() => {
-    setTimeout(() => {
+const services = ref([]);
+onMounted(async () => {
+    window.scrollTo(0, 0);
+
+    try {
+        axios.defaults.headers.common['Authorization'] = null;
+        const res = await axios.get('api/services');
+        if (res.status == 200) {
+            services.value = res.data.services;
+        } else {
+            throw new Error(res.response.data.message);
+        }
+    } catch (error) {
+        toast.error(error.message);
+    } finally {
         loading.value = false;
         animations();
-    }, 1000);
-    window.scrollTo(0, 0);
+    }
 });
 
 const animations = () => {
@@ -211,6 +240,19 @@ const animations = () => {
     }
     100% {
         background-position: 200% 0;
+    }
+}
+.not-found {
+    text-align: center;
+    position: relative;
+    z-index: 100;
+    p {
+        text-align: center;
+    }
+    img {
+        @media (max-width: 500px) {
+            width: auto !important;
+        }
     }
 }
 </style>

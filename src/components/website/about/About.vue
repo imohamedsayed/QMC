@@ -21,7 +21,7 @@
                                 {{ $t('about.who') }}
                             </p>
                             <p class="details">
-                                {{ $t('about.whoText') }}
+                                {{ who.value }}
                             </p>
                         </div>
                     </v-col>
@@ -35,7 +35,7 @@
                                 {{ $t('about.vision') }}
                             </p>
                             <p class="details">
-                                {{ $t('about.visionText') }}
+                                {{ vision.value }}
                             </p>
                         </div>
                     </v-col>
@@ -67,7 +67,7 @@
                                 {{ $t('about.mission') }}
                             </p>
                             <p class="details">
-                                {{ $t('about.missionText') }}
+                                {{ mission?.value }}
                             </p>
                         </div>
                     </v-col>
@@ -81,8 +81,15 @@
 <script setup>
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import { onMounted } from 'vue';
+import { onMounted, computed } from 'vue';
 gsap.registerPlugin(ScrollTrigger);
+
+import { useSettingsStore } from '@/stores/SettingsStore';
+const settingsStore = useSettingsStore();
+
+const vision = computed(() => settingsStore.getSettingByKey('vision'));
+const mission = computed(() => settingsStore.getSettingByKey('mission'));
+const who = computed(() => settingsStore.getSettingByKey('who_are_you'));
 
 onMounted(() => {
     gsap.utils.toArray('.left').forEach((box) => {

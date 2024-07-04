@@ -23,17 +23,22 @@
                 </div>
                 <div class="faqs-list mt-10">
                     <v-row v-if="!loading">
-                        <v-expansion-panels variant="">
-                            <v-col cols="12" lg="6" v-for="i in 12" :key="i">
+                        <v-expansion-panels variant="" v-if="faqs.length">
+                            <v-col cols="12" lg="6" v-for="f in faqs" :key="f.id">
                                 <v-expansion-panel rounded="lg" :class="i % 2 == 0 ? 'right' : 'left'">
-                                    <v-expansion-panel-title class="title"> Title </v-expansion-panel-title>
+                                    <v-expansion-panel-title class="title">
+                                        {{ f.question }}
+                                    </v-expansion-panel-title>
                                     <v-expansion-panel-text>
-                                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Commodi, ratione debitis quis est labore
-                                        voluptatibus! Eaque cupiditate minima
+                                        {{ f.answer }}
                                     </v-expansion-panel-text>
                                 </v-expansion-panel>
                             </v-col>
                         </v-expansion-panels>
+                        <v-col cols="12" v-else class="text-center not-found">
+                            <img class="mx-auto text-center" width="500" src="../../assets/images/background/faq.svg" />
+                            <p class="font-weight-bold text-center" style="font-size: 1.2rem; text-align: center">{{ $t('faq.noFAQs') }}</p>
+                        </v-col>
                     </v-row>
                     <v-row v-else>
                         <v-progress-linear color="skin" indeterminate></v-progress-linear>
@@ -58,6 +63,8 @@ import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n({ useScope: 'global' });
 import { IconUsersGroup } from '@tabler/icons-vue';
+import { toast } from 'vue3-toastify';
+import axios from 'axios';
 gsap.registerPlugin(ScrollTrigger);
 const items = [
     {
@@ -67,13 +74,25 @@ const items = [
     }
 ];
 const loading = ref(true);
-onMounted(() => {
-    // animations
-    setTimeout(() => {
+const faqs = ref([]);
+
+onMounted(async () => {
+    window.scrollTo(0, 0);
+
+    try {
+        axios.defaults.headers.common['Authorization'] = null;
+        const res = await axios.get('api/faqs');
+        if (res.status == 200) {
+            faqs.value = res.data.faqs;
+        } else {
+            throw new Error(res.response.data.message);
+        }
+    } catch (error) {
+        toast.error(error.message);
+    } finally {
         loading.value = false;
         animations();
-    }, 1000);
-    window.scrollTo(0, 0);
+    }
 });
 
 const animations = () => {
@@ -194,6 +213,20 @@ const animations = () => {
     }
     100% {
         background-position: 200% 0;
+    }
+}
+
+.not-found {
+    text-align: center;
+    position: relative;
+    z-index: 100;
+    p {
+        text-align: center;
+    }
+    img {
+        @media (max-width: 500px) {
+            width: auto !important;
+        }
     }
 }
 </style>

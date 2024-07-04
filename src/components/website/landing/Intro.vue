@@ -3,11 +3,11 @@
         <v-container class="px-md-16 d-flex align-center justify-space-between flex-column flex-md-row justify-center">
             <div class="text animate__animated animate__backInLeft pt-3">
                 <h1 class="text-white" v-if="!loading">
-                    <span class="text-black">{{ $t('intro.qmc') }}</span> <br />
+                    <span class="text-black">{{ title }}</span> <br />
                 </h1>
                 <div class="skeleton title" v-else></div>
                 <p class="mt-4 text-muted" v-if="!loading">
-                    {{ $t('intro.text') }} <span class="text-green">{{ $t('intro.anything') }}</span>
+                    {{ description }}
                 </p>
                 <div class="skeleton p mt-4" v-else></div>
                 <v-btn
@@ -21,8 +21,7 @@
                 >
             </div>
             <div class="img animate__animated animate__backInRight" v-if="!loading">
-                <img src="@/assets/images/landing/intro3.png" class="intro-img" alt="" />
-                <!-- <v-img class="intro-img" src="./lawyer.svg" cover > </v-img> -->
+                <v-img :src="apiUrl + image.ImagePath + image.media?.name" class="intro-img" alt=""> </v-img>
             </div>
             <div class="skeleton image" v-else></div>
         </v-container>
@@ -30,14 +29,25 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, computed } from 'vue';
+import { useSettingsStore } from '@/stores/SettingsStore';
 
-const loading = ref(true);
+const settingsStore = useSettingsStore();
+const loading = ref(false);
 
-onMounted(() => {
-    setTimeout(() => {
+const title = computed(() => settingsStore.titleHome);
+const description = computed(() => settingsStore.descriptionHome);
+const image = computed(() => settingsStore.homeImage);
+const apiUrl = import.meta.env.VITE_API_URL;
+
+
+
+onMounted(async () => {
+    if (settingsStore.settings.length === 0) {
+        loading.value = true;
+        await settingsStore.fetchSettings();
         loading.value = false;
-    }, 1000);
+    }
 });
 </script>
 
@@ -94,27 +104,28 @@ onMounted(() => {
         backdrop-filter: blur(2px);
 
         text-align: center;
-        img {
-            width: fit-content;
-            z-index: 2;
-            height: 400px;
-            @media (max-width: 1404px) {
-                height: 300px;
-            }
-            @media (max-width: 960px) {
-                height: 150px;
-            }
-            @media (max-width: 959px) {
-                margin-top: 40px;
-                width: 300px;
-            }
-            @media (max-width: 500px) {
-                width: 200px;
-            }
-            @media (max-width: 320px) {
-                display: none;
-            }
-        }
+    }
+}
+.intro-img {
+    width: 600px;
+    max-width: 600px; // This is important to ensure the image is displayed correctly
+    z-index: 2;
+    height: 400px;
+    @media (max-width: 1404px) {
+        height: 300px;
+    }
+    @media (max-width: 960px) {
+        height: 150px;
+    }
+    @media (max-width: 959px) {
+        margin-top: 40px;
+        width: 300px;
+    }
+    @media (max-width: 500px) {
+        width: 200px;
+    }
+    @media (max-width: 320px) {
+        display: none;
     }
 }
 .skeleton {

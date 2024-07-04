@@ -22,10 +22,10 @@
                     <p class="text-skin">{{ $t('clients.title') }}</p>
                 </div>
                 <div class="clients-list mt-10" v-if="!loading">
-                    <v-row>
-                        <v-col cols="6" md="4" lg="3" v-for="i in 16" :key="i">
+                    <v-row v-if="clients.length">
+                        <v-col cols="6" md="4" lg="3" v-for="client in clients" :key="client.id">
                             <div class="left">
-                                <v-img :src="`./images/clients/${i}.jpg`">
+                                <v-img :src="apiUrl + client.ImagePath + client.media?.name" :alt="client.name" :title="client.name">
                                     <template v-slot:placeholder>
                                         <div class="d-flex align-center justify-center fill-height">
                                             <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
@@ -35,6 +35,12 @@
                             </div>
                         </v-col>
                     </v-row>
+                    <div v-else class="text-center not-found">
+                        <img class="mx-auto text-center" width="500" src="../../assets/images/background/clients.svg" />
+                        <p class="font-weight-bold text-center" style="font-size: 1.2rem; text-align: center">
+                            {{ $t('clients.noClients') }}
+                        </p>
+                    </div>
                 </div>
                 <div class="clients-list mt-10" v-else>
                     <v-progress-linear color="skin" indeterminate></v-progress-linear>
@@ -59,6 +65,9 @@ import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n({ useScope: 'global' });
 import { IconUsersGroup } from '@tabler/icons-vue';
+import { toast } from 'vue3-toastify';
+import axios from 'axios';
+
 gsap.registerPlugin(ScrollTrigger);
 const items = [
     {
@@ -67,15 +76,11 @@ const items = [
         href: '/our-clients'
     }
 ];
-const loading = ref(true);
-onMounted(() => {
-    setTimeout(() => {
-        loading.value = false;
-        animation();
-    }, 1000);
-    // animations
-    window.scrollTo(0, 0);
+const apiUrl = import.meta.env.VITE_API_URL;
 
+const loading = ref(true);
+const clients = ref([]);
+onMounted(async () => {
     gsap.utils.toArray('.skelton').forEach((box) => {
         gsap.from(box, {
             x: 100,
@@ -88,6 +93,22 @@ onMounted(() => {
             }
         });
     });
+    window.scrollTo(0, 0);
+
+    try {
+        axios.defaults.headers.common['Authorization'] = null;
+        const res = await axios.get('api/clients');
+        if (res.status == 200) {
+            clients.value = res.data.clients;
+        } else {
+            throw new Error(res.response.data.message);
+        }
+    } catch (error) {
+        toast.error(error.message);
+    } finally {
+        loading.value = false;
+        animation();
+    }
 });
 const animation = () => {
     setTimeout(() => {
@@ -203,13 +224,25 @@ const animation = () => {
         height: 200px;
     }
 }
-
 @keyframes shimmer {
     0% {
         background-position: -200% 0;
     }
     100% {
         background-position: 200% 0;
+    }
+}
+.not-found {
+    text-align: center;
+    position: relative;
+    z-index: 100;
+    p {
+        text-align: center;
+    }
+    img {
+        @media (max-width: 500px) {
+            width: auto !important;
+        }
     }
 }
 </style>

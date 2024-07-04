@@ -1,10 +1,21 @@
 <template>
     <div class="top bg-blueLogo px-2 d-flex align-center justify-space-between">
         <div class="d-flex align-center gap-2">
-            <p><v-icon>mdi-email-outline</v-icon> QMC.inc@gmail.com</p>
-            <v-btn icon="mdi-whatsapp" elevation="0" class="bg-blueLogo" size="small"></v-btn> |
-            <v-btn icon="mdi-facebook" elevation="0" class="bg-blueLogo" size="small"></v-btn> |
-            <v-btn icon="mdi-instagram" elevation="0" class="bg-blueLogo" size="small"></v-btn>
+            <p class="gmail"><v-icon>mdi-email-outline</v-icon> {{ gmail.value }}</p>
+            <div class="media">
+                <a v-if="whatsapp" :href="`https://wa.me/${whatsapp.value}?text=Hello%20there!`" target="_blank">
+                    <v-btn icon="mdi-whatsapp" elevation="0" class="bg-blueLogo" size="small"></v-btn></a
+                >|
+                <a v-if="insta" :href="insta.value" target="_blank">
+                    <v-btn icon="mdi-instagram" elevation="0" class="bg-blueLogo" size="small"></v-btn></a
+                >|
+                <a v-if="linkedIn" :href="linkedIn.value" target="_blank">
+                    <v-btn icon="mdi-linkedin" elevation="0" class="bg-blueLogo" size="small"></v-btn></a
+                >|
+                <a v-if="twitter" :href="twitter.value" target="_blank">
+                    <v-btn icon="mdi-twitter" elevation="0" class="bg-blueLogo" size="small"></v-btn
+                ></a>
+            </div>
         </div>
         <Language />
     </div>
@@ -23,7 +34,7 @@
                 <!-- LOGO -->
                 <!-- <v-img src="@/assets/images/logo.png"></v-img> -->
                 <img
-                    src="@/assets/images/logo.jpeg"
+                    :src="apiUrl + logo.ImagePath + logo.media?.name"
                     class="mt-5 ml-4 pb-2 cursor-pointer logo-img"
                     alt=""
                     width="110"
@@ -43,8 +54,15 @@
                             </template>
 
                             <v-list>
-                                <v-list-item color="primary" v-for="s in 4" :key="s" :value="'service ' + i">
-                                    <v-list-item-title>{{ 'service ' + s }}</v-list-item-title>
+                                <v-list-item
+                                    color="primary"
+                                    v-for="service in services"
+                                    :key="service.id"
+                                    :value="service.name"
+                                    :prepend-avatar="apiUrl + service.ImagePath + service.media?.name"
+                                    :to="'/our-services/' + service.id"
+                                >
+                                    <v-list-item-title>{{ service.name.substring(0, 30) }}</v-list-item-title>
                                 </v-list-item>
                             </v-list>
                         </v-menu>
@@ -90,8 +108,14 @@
                             </v-expansion-panel-title>
                             <v-expansion-panel-text>
                                 <v-list>
-                                    <v-list-item color="primary" v-for="i in 5" :key="i" :value="'service ' + o" :to="'/our-services/' + i">
-                                        <v-list-item-title>{{ 'Service ' + i }}</v-list-item-title>
+                                    <v-list-item
+                                        color="primary"
+                                        v-for="service in services"
+                                        :key="service"
+                                        :value="service.name"
+                                        :to="'/our-services/' + service.id"
+                                    >
+                                        <v-list-item-title>{{ service.name }}</v-list-item-title>
                                     </v-list-item>
                                 </v-list>
                             </v-expansion-panel-text>
@@ -112,25 +136,51 @@ import Profile from './vertical-header/Profile.vue';
 import Language from './vertical-header/Language.vue';
 import { IconGardenCart, IconHeart, IconLogin, IconLogout, IconUserPlus } from '@tabler/icons-vue';
 import { computed, onMounted, ref, shallowRef } from 'vue';
+import { useSettingsStore } from '@/stores/SettingsStore';
 
 import NavGroup from './vertical-sidebar/NavGroup/index.vue';
 import NavItem from './vertical-sidebar/NavItem/index.vue';
 import sidebarItem from './SidebarItems';
 import { useRouter } from 'vue-router';
+import axios from 'axios';
 
 const sidebarMenu = shallowRef(sidebarItem);
+const settingsStore = useSettingsStore();
 
 const drawer = ref(false);
 
-onMounted(async () => {});
+const logo = computed(() => settingsStore.getSettingByKey('logo'));
+const gmail = computed(() => settingsStore.getSettingByKey('email'));
+const whatsapp = computed(() => settingsStore.getSettingByKey('whatsapp'));
+const twitter = computed(() => settingsStore.getSettingByKey('twitter'));
+const insta = computed(() => settingsStore.getSettingByKey('insta'));
+const linkedIn = computed(() => settingsStore.getSettingByKey('linkedIn'));
 
-const router = useRouter();
-const logout = async () => {};
+const apiUrl = import.meta.env.VITE_API_URL;
+
+const services = ref([]);
+
+onMounted(async () => {
+    try {
+        const res = await axios.get('api/services');
+        if (res.status == 200) {
+            console.log(res.data.services);
+            services.value = res.data.services;
+        } else {
+            throw new Error(res.response.data.message);
+        }
+    } catch (error) {}
+});
 </script>
 
 <style lang="scss" scoped>
 .top {
     font-size: 12px;
+    @media (max-width: 500px) {
+        .gmail {
+            display: none;
+        }
+    }
 }
 .header {
     background: white;

@@ -23,28 +23,37 @@
                 </div>
 
                 <div class="blogs-list mt-15">
-                    <v-row>
-                        <v-col cols="12" md="6" lg="4" v-for="i in 9" :key="i" @click="$router.push({ name: 'blog', params: { id: i } })">
+                    <v-row v-if="blogs.length">
+                        <v-col cols="12" md="6" lg="4" v-for="blog in blogs" :key="blog.id">
                             <v-card class="blog pb-2">
-                                <v-img src="./images/blog2.png" cover>
+                                <v-img :src="apiUrl + blog.ImagePath + blog.media?.name" cover>
                                     <template v-slot:placeholder>
                                         <div class="d-flex align-center justify-center fill-height">
                                             <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
                                         </div>
                                     </template>
                                 </v-img>
-                                <span class="text-green text-body-2 mx-4 d-block">30 Mars 2023</span>
+                                <span class="text-skin text-body-2 mx-4 d-block">{{ blog.created_at }}</span>
 
-                                <v-card-title class="text-green font-weight-bold">FEASIBILITY STUDY IN SAUDI ARABIA</v-card-title>
-                                <v-card-text
-                                    >Financial control is of paramount importance in the administrative process. One of the most important
-                                    pillars of this process and the...</v-card-text
+                                <v-card-title class="text-green font-weight-bold">{{ blog.name }}</v-card-title>
+                                <v-card-text>{{ blog.description.substring(0, 130) + '...' }}</v-card-text>
+                                <v-btn
+                                    elevation="0"
+                                    class="mx-4"
+                                    color="skin"
+                                    @click="$router.push({ name: 'blog', params: { id: blog.id } })"
+                                    >{{ $t('blogs.more') }}</v-btn
                                 >
-                                <v-btn elevation="0" class="mx-4" color="skin">{{ $t('blogs.more') }}</v-btn>
                             </v-card>
                         </v-col>
+                        <v-col cols="12">
+                            <v-pagination v-model="page" :length="length" class="mt-8 text-skin" dir="ltr"></v-pagination>
+                        </v-col>
                     </v-row>
-                    <v-pagination v-model="page" :length="15" class="mt-8 text-skin" dir="ltr"></v-pagination>
+                    <div v-else class="text-center not-found">
+                        <img class="mx-auto text-center" width="500" src="../../assets/images/background/blog.svg" />
+                        <p class="font-weight-bold text-center" style="font-size: 1.2rem; text-align: center">{{ $t('blogs.noBlogs') }}</p>
+                    </div>
                 </div>
                 <img src="@/assets/images/abstract/shape1.png" class="liquid-shape" alt="" />
             </div>
@@ -71,10 +80,12 @@
 <script setup>
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n({ useScope: 'global' });
 import { IconUsersGroup } from '@tabler/icons-vue';
+import { toast } from 'vue3-toastify';
+import axios from 'axios';
 gsap.registerPlugin(ScrollTrigger);
 const items = [
     {
@@ -83,16 +94,47 @@ const items = [
         href: 'blogs'
     }
 ];
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const page = ref(1);
+const length = ref(1);
 const loading = ref(true);
-onMounted(() => {
-    // animations
+const blogs = ref([]);
+onMounted(async () => {
     window.scrollTo(0, 0);
-    setTimeout(() => {
+
+    // animations
+    await loadBlogs();
+});
+watch(
+    page,
+    (value) => {
+        loadBlogs();
+    },
+    { deep: true }
+);
+
+const loadBlogs = async () => {
+    try {
+        axios.defaults.headers.common['Authorization'] = null;
+        const res = await axios.get('api/blogs?page=' + page.value);
+
+        if (res.status == 200) {
+            blogs.value = res.data.blogs;
+            const pagination = res.data.meta.pagination;
+            console.log(pagination);
+            length.value = pagination.last_page;
+        } else {
+            throw new Error(res.response.data.message);
+        }
+    } catch (error) {
+        toast.error(error.message);
+    } finally {
         loading.value = false;
         animations();
-    }, 1000);
-});
+    }
+};
+
 const animations = () => {
     setTimeout(() => {
         gsap.utils.toArray('.blog').forEach((box) => {
@@ -210,6 +252,19 @@ const animations = () => {
     }
     100% {
         background-position: 200% 0;
+    }
+}
+.not-found {
+    text-align: center;
+    position: relative;
+    z-index: 100;
+    p {
+        text-align: center;
+    }
+    img {
+        @media (max-width: 500px) {
+            width: auto !important;
+        }
     }
 }
 </style>

@@ -45,6 +45,7 @@ const sidebarItem: menu[] = [
     {
         title: 'Messages',
         icon: IconMessages,
+        subCaption: 'To view chats',
         to: '/dashboard/tickets'
     },
     { header: 'Why us' },

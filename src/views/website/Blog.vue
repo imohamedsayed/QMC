@@ -18,35 +18,30 @@
             </v-breadcrumbs>
 
             <div class="blog-content my-10" v-if="!loading">
-                <div class="title mb-10">
-                    <p class="animate__animated animate__fadeInDown">IMPORTANCE OF FINANCIAL CONTROL IN BUSINESS</p>
-                    <span class="animate__animated animate__fadeInUp">30 Mars 2024</span>
-                </div>
-                <div class="blog-img-text">
-                    <v-img
-                        class="blog-img right"
-                        src="https://mw7design.com.br/media/upload/ckeditor/2023/03/16/blog_Ghlcdge.jpg"
-                        style="max-height: 400px"
-                    >
-                        <template v-slot:placeholder>
-                            <div class="d-flex align-center justify-center fill-height">
-                                <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
-                            </div>
-                        </template>
-                    </v-img>
-                    <div class="blog-details mt-10 left">
-                        <p>
-                            Financial control is of paramount importance in the administrative process. One of the most important pillars of
-                            this process and the control process needs to regulated. In such a way on develop administrative activities. As
-                            effective tools for development and management with different entities. As a result, It known that the
-                            government behind its establishment. Aims to provide services to citizens. The role of regulators is to ensure
-                            that these services provided as soon as possible. With the least effort and expenditure and in the form required
-                            by law. The existence of efficient and effective financial control systems in any organization is one of the
-                            most important factors in the organization’s success. Finally To achieving its objectives.
-                        </p>
+                <div v-if="blog">
+                    <div class="title mb-10">
+                        <p class="animate__animated animate__fadeInDown">{{ blog.name }}</p>
+                        <span class="animate__animated animate__fadeInUp">{{ blog.created_at }}</span>
+                    </div>
+                    <div class="blog-img-text">
+                        <v-img class="blog-img right" :src="apiUrl + blog.ImagePath + blog.media?.name" style="max-height: 400px">
+                            <template v-slot:placeholder>
+                                <div class="d-flex align-center justify-center fill-height">
+                                    <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
+                                </div>
+                            </template>
+                        </v-img>
+                        <div class="blog-details mt-10 left">
+                            <p>
+                                {{ blog.description }}
+                            </p>
+                        </div>
                     </div>
                 </div>
-
+                <div v-else class="text-center not-found">
+                    <img class="mx-auto text-center" width="500" src="../../assets/images/background/blog.svg" />
+                    <p class="font-weight-bold text-center" style="font-size: 1.2rem; text-align: center">{{ $t('blogs.notFound') }}</p>
+                </div>
                 <img src="@/assets/images/abstract/shape1.png" class="liquid-shape" alt="" />
             </div>
 
@@ -72,9 +67,13 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { toast } from 'vue3-toastify';
+import axios from 'axios';
+
 const { t } = useI18n({ useScope: 'global' });
-import { IconUsersGroup } from '@tabler/icons-vue';
 gsap.registerPlugin(ScrollTrigger);
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const items = [
     {
         title: t('bread.blogs'),
@@ -87,14 +86,34 @@ const items = [
         href: 'blog'
     }
 ];
+
+const props = defineProps({
+    id: {
+        type: Number,
+        required: true
+    }
+});
+
+const blog = ref(null);
+
 const loading = ref(true);
-onMounted(() => {
-    setTimeout(() => {
+onMounted(async () => {
+    window.scrollTo(0, 0);
+    try {
+        axios.defaults.headers.common['Authorization'] = null;
+        const res = await axios.get('api/blogs/' + props.id);
+        if (res.status == 200) {
+            blog.value = res.data.data;
+            console.log(res.data.data);
+        } else {
+            throw new Error(res.response.data.message);
+        }
+    } catch (error) {
+        toast.error(error.message);
+    } finally {
         loading.value = false;
         animations();
-    }, 1000);
-    // animations
-    window.scrollTo(0, 0);
+    }
 });
 const animations = () => {
     setTimeout(() => {
@@ -219,7 +238,7 @@ const animations = () => {
         margin: 0 auto;
         margin-bottom: 16px;
     }
-        height: 20px;
+    height: 20px;
     &.p {
         margin-bottom: 8px;
     }
@@ -239,6 +258,19 @@ const animations = () => {
     }
     100% {
         background-position: 200% 0;
+    }
+}
+.not-found {
+    text-align: center;
+    position: relative;
+    z-index: 100;
+    p {
+        text-align: center;
+    }
+    img {
+        @media (max-width: 500px) {
+            width: auto !important;
+        }
     }
 }
 </style>

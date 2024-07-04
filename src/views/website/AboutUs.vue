@@ -16,25 +16,11 @@
                     <v-icon icon="mdi-chevron-left"></v-icon>
                 </template>
             </v-breadcrumbs>
-            <div v-if="!loading">
+            <div >
                 <WhyUs />
                 <About />
             </div>
-            <div v-else>
-                <v-progress-linear color="skin" indeterminate></v-progress-linear>
-
-                <div class="skelton header mb-10 mt-5"></div>
-                <v-row>
-                    <v-col cols="12" md="6" lg="4" v-for="i in 9" :key="i">
-                        <div class="skelton card"></div>
-                    </v-col>
-                </v-row>
-
-                <div class="mt-16 skelton header mb-10"></div>
-                <div class="skelton rectangle mb-8"></div>
-                <div class="skelton rectangle mb-8"></div>
-                <div class="skelton rectangle mb-8"></div>
-            </div>
+            
         </v-container>
     </div>
 </template>
@@ -55,12 +41,7 @@ const items = [
     }
 ];
 
-const loading = ref(true);
-
 onMounted(() => {
-    setTimeout(() => {
-        loading.value = false;
-    }, 1000);
     // animations
     window.scrollTo(0, 0);
 });

@@ -3,7 +3,7 @@
         <v-row class="">
             <v-col cols="12" md="6" lg="3" class="mt-5">
                 <div>
-                    <img src="@/assets/images/logo.png" width="300" style="height: 200px" class="" />
+                    <img :src="apiUrl + logo.ImagePath + logo.media?.name" width="300" style="height: 200px" class="" />
                 </div>
             </v-col>
             <v-col cols="12" md="6" lg="3" class="mt-5">
@@ -18,17 +18,23 @@
             <v-col cols="12" md="6" lg="3" class="mt-5 text-blueLogo">
                 <p class="text-green">{{ $t('footer.contactUs') }}</p>
                 <div class="mt-5 bg-none">
-                    <v-list-item :title="'QMC.inc@gmail.com'"> </v-list-item>
-                    <v-list-item :title="$t('footer.reservation') + ': +0991xxxxx - +0991xxxxx'"> </v-list-item>
+                    <v-list-item :title="gmail.value"> </v-list-item>
+                    <v-list-item :title="$t('footer.reservation') + ' : ' + mobile.value"> </v-list-item>
                 </div>
             </v-col>
             <v-col cols="12" md="6" lg="3" class="mt-5">
                 <p class="text-green">{{ $t('footer.social') }}</p>
                 <div class="social-media d-flex gap-4 mt-5 justify-center">
-                    <a href="https://www.facebook.com/profile.php?id=100090516042333" target="_blank">
-                        <v-btn icon><IconBrandFacebook /></v-btn>
+                    <a v-if="twitter" :href="twitter.value" target="_blank">
+                        <v-btn icon><IconBrandTwitter /></v-btn>
                     </a>
-                    <a href="https://wa.me/+0991xxxxx?text=Hello%20there!" target="_blank">
+                    <a v-if="insta" :href="insta.value" target="_blank">
+                        <v-btn icon><IconBrandInstagram /></v-btn>
+                    </a>
+                    <a v-if="linkedIn" :href="linkedIn.value" target="_blank">
+                        <v-btn icon><IconBrandLinkedin /></v-btn>
+                    </a>
+                    <a v-if="whatsapp" :href="`https://wa.me/${whatsapp.value}?text=Hello%20there!`" target="_blank">
                         <v-btn icon><IconBrandWhatsapp /></v-btn>
                     </a>
                     <!-- <v-btn icon><IconBrandSnapchat /></v-btn> -->
@@ -55,6 +61,19 @@ import {
     IconBrandSnapchat,
     IconBrandTwitter
 } from '@tabler/icons-vue';
+
+import { useSettingsStore } from '@/stores/SettingsStore';
+import { computed } from 'vue';
+const settingsStore = useSettingsStore();
+const apiUrl = import.meta.env.VITE_API_URL;
+const logo = computed(() => settingsStore.getSettingByKey('logo'));
+const mobile = computed(() => settingsStore.getSettingByKey('mobile'));
+const gmail = computed(() => settingsStore.getSettingByKey('email'));
+const whatsapp = computed(() => settingsStore.getSettingByKey('whatsapp'));
+const twitter = computed(() => settingsStore.getSettingByKey('twitter'));
+const insta = computed(() => settingsStore.getSettingByKey('insta'));
+const linkedIn = computed(() => settingsStore.getSettingByKey('linkedIn'));
+
 </script>
 
 <style lang="scss" scoped>

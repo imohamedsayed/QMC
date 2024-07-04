@@ -66,7 +66,8 @@ export default {
             'The key to any strategy and research lies in its successful execution. We proceed with implementation only after a thorough evaluation and planning phase, ensuring adherence to tax schedules.',
         revise: 'PERIODICALLY REVIEW AND UPDATE THE PLAN',
         reviseText:
-            'Monitoring and control are ongoing processes at every stage. However, they become critical post-implementation. Our team schedules regular reviews and revises the processes as necessary.'
+            'Monitoring and control are ongoing processes at every stage. However, they become critical post-implementation. Our team schedules regular reviews and revises the processes as necessary.',
+        noProcesses: 'Sorry, There is no available content for our processes for now!'
     },
     about: {
         why: 'Why Us ?',
@@ -83,18 +84,24 @@ export default {
     },
     blogs: {
         title: "What's the latest ?",
-        read: 'READ MORE'
+        more: 'READ MORE',
+        noBlogs: 'Sorry, there is no blogs available for now',
+        notFound: 'ً404! Requested Blog is not found'
     },
     faq: {
-        title: 'Frequently Asked Questions'
+        title: 'Frequently Asked Questions',
+        noFAQs: 'Sorry, There is no FAQs available yet!'
     },
     clients: {
-        title: 'Our Clients'
+        title: 'Our Clients',
+        noClients: 'Sorry, There is no clients available for now'
     },
     services: {
         title: 'Our Services',
         learn: 'Learn More ..',
-        about: 'About This Service'
+        about: 'About This Service',
+        noServices: 'Sorry! There is no services available for now',
+        notFound: '404 ! Requested Service is not fount'
     },
     side: {
         main: 'Main Links',

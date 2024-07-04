@@ -20,58 +20,66 @@
                 <div class="title text-center animate__animated animate__backInDown mb-10">
                     <p class="text-skin">{{ $t('services.title') }}</p>
                 </div>
-
-                <div class="service-header px-8 elevation-1">
-                    <div class="overlay"></div>
-                    <v-row class="align-center content">
-                        <v-col cols="12" md="6">
-                            <img
-                                class="left"
-                                style="max-width: 400px; max-height: 400px"
-                                src="https://st.depositphotos.com/1000423/1637/i/450/depositphotos_16370285-stock-photo-hand-pushing-on-a-touch.jpg"
-                            />
-                        </v-col>
-                        <v-col cols="12" md="6">
-                            <div class="about-service right">
-                                <p class="about">{{ $t('services.about') }}</p>
-                                <p>
-                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Est aspernatur accusantium numquam sed,
-                                    possimus quos debitis! Eos, possimus? Alias, praesentium eius error neque adipisci recusandae aliquid
-                                    mollitia quibusdam repudiandae accusamus.
-                                </p>
-                            </div>
-                        </v-col>
-                    </v-row>
-                </div>
-
-                <hr />
-                <div class="service-content my-10">
-                    <div class="content">
-                        <v-row>
-                            <v-col cols="12" md="4" lg="4" v-for="i in 6" :key="i">
-                                <v-card class="service right pa-2" @click="$router.push('/our-services/1/2')">
-                                    <img
-                                        style="width: 100%"
-                                        src="https://st.depositphotos.com/1000423/1637/i/450/depositphotos_16370285-stock-photo-hand-pushing-on-a-touch.jpg"
-                                    />
-                                    <!-- <template v-slot:placeholder>
-                                        <div class="d-flex align-center justify-center fill-height">
-                                            <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
-                                        </div>
-                                    </template>
-                                </img> -->
-                                    <v-card-title class="text-skin font-weight-bold">Service 1</v-card-title>
-                                    <v-card-text
-                                        >Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima corrupti assumenda vitae enim
-                                        incidunt maxime doloremque neque ea, ducimus a.</v-card-text
-                                    >
-                                    <v-btn elevation="0" class="text-primary">{{ $t('services.learn') }}</v-btn>
-                                </v-card>
+                <div v-if="service">
+                    <div class="service-header px-8 elevation-1">
+                        <div class="overlay"></div>
+                        <v-row class="align-center content">
+                            <v-col cols="12" md="6">
+                                <img
+                                    class="left"
+                                    style="max-width: 400px; max-height: 400px"
+                                    :src="apiUrl + service.ImagePath + service.media?.name"
+                                />
+                            </v-col>
+                            <v-col cols="12" md="6">
+                                <div class="about-service right">
+                                    <p class="about">{{ service.name }}</p>
+                                    <p>
+                                        {{ service.description }}
+                                    </p>
+                                </div>
                             </v-col>
                         </v-row>
                     </div>
-                    <img src="@/assets/images/abstract/services4.svg" class="liquid-shape" alt="" />
-                    <img src="@/assets/images/abstract/services2.svg" class="liquid-shape l2" alt="" />
+                    <hr />
+                    <div class="service-content my-10">
+                        <div class="content">
+                            <div v-if="service?.sections.length">
+                                <v-progress-linear v-if="progress" color="skin" indeterminate class="my-7"></v-progress-linear>
+
+                                <v-row>
+                                    <v-col cols="12" md="4" lg="4" v-for="s in service.sections" :key="s.id">
+                                        <v-card class="service right pa-2" @click="$router.push(`/our-services/${service.id}/${s.id}`)">
+                                            <img style="width: 100%; min-height: 400px" :src="apiUrl + s.ImagePath + s.media?.name" />
+                                            <!-- <template v-slot:placeholder>
+                                                    <div class="d-flex align-center justify-center fill-height">
+                                                        <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
+                                                    </div>
+                                                </template>
+                                            </img> -->
+                                            <v-card-title class="text-skin font-weight-bold">{{ s.name }}</v-card-title>
+                                            <v-card-text>{{ s.description.substring(0, 120) }}</v-card-text>
+                                            <v-btn elevation="0" class="text-primary">{{ $t('services.learn') }}</v-btn>
+                                        </v-card>
+                                    </v-col>
+                                </v-row>
+                            </div>
+                            <div v-else class="text-center not-found">
+                                <img class="mx-auto text-center" width="500" src="../../assets/images/background/noServices.svg" />
+                                <p class="font-weight-bold text-center" style="font-size: 1.2rem; text-align: center">
+                                    {{ $t('services.noServices') }}
+                                </p>
+                            </div>
+                        </div>
+                        <img src="@/assets/images/abstract/services4.svg" class="liquid-shape" alt="" />
+                        <img src="@/assets/images/abstract/services2.svg" class="liquid-shape l2" alt="" />
+                    </div>
+                </div>
+                <div v-else class="text-center not-found">
+                    <img class="mx-auto text-center" width="500" src="../../assets/images/background/notFound.svg" />
+                    <p class="font-weight-bold text-center" style="font-size: 1.2rem; text-align: center">
+                        {{ $t('services.notFound') }}
+                    </p>
                 </div>
             </div>
             <div v-else>
@@ -81,7 +89,7 @@
                     <div class="overlay"></div>
                     <v-row class="align-center content">
                         <v-col cols="12" md="6">
-                            <div class="skelton card"></div>
+                            <div class="skelton card" style="height: 400px"></div>
                         </v-col>
                         <v-col cols="12" md="6">
                             <div class="about-service right">
@@ -111,8 +119,26 @@
 <script setup>
 import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { toast } from 'vue3-toastify';
+import axios from 'axios';
+
+const props = defineProps({
+    id: {
+        type: Number,
+        required: true
+    }
+});
+
+watch(
+    props,
+    (value) => {
+        loadData();
+    },
+    { deep: true }
+);
+
 const { t } = useI18n({ useScope: 'global' });
 gsap.registerPlugin(ScrollTrigger);
 const items = [
@@ -129,14 +155,32 @@ const items = [
 ];
 
 const loading = ref(true);
-
-onMounted(() => {
+const apiUrl = import.meta.env.VITE_API_URL;
+const service = ref(null);
+const progress = ref(true);
+onMounted(async () => {
     window.scrollTo(0, 0);
-    setTimeout(() => {
+    await loadData();
+});
+
+const loadData = async () => {
+    loading.value = true;
+    try {
+        axios.defaults.headers.common['Authorization'] = null;
+        const res = await axios.get('api/services/' + props.id + '/sections');
+        if (res.status == 200) {
+            service.value = res.data.service;
+        } else {
+            throw new Error(res.response.data.message);
+        }
+    } catch (error) {
+        toast.error(error.message);
+    } finally {
         loading.value = false;
         animations();
-    }, 3000);
-});
+        progress.value = false;
+    }
+};
 
 const animations = () => {
     setTimeout(() => {
@@ -164,7 +208,7 @@ const animations = () => {
                 }
             });
         });
-    }, 100);
+    }, 1000);
 };
 </script>
 
@@ -361,6 +405,19 @@ const animations = () => {
     }
     100% {
         background-position: 200% 0;
+    }
+}
+.not-found {
+    text-align: center;
+    position: relative;
+    z-index: 100;
+    p {
+        text-align: center;
+    }
+    img {
+        @media (max-width: 500px) {
+            width: auto !important;
+        }
     }
 }
 </style>

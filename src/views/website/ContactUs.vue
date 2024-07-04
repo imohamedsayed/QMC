@@ -27,10 +27,15 @@
                         <form class="cb-form" @submit.prevent="sendMessage">
                             <div>
                                 <p>{{ $t('contact_us.request') }}</p>
-                                <v-text-field :label="$t('contact_us.name')" color="skin" v-model="name" readonly=""></v-text-field>
-                                <v-text-field :label="$t('contact_us.email')" color="skin" v-model="email" readonly></v-text-field>
-                                <v-text-field :label="$t('contact_us.phone')" color="skin" v-model="phone" readonly></v-text-field>
-                                <v-textarea :label="$t('contact_us.message')" v-model="message" color="skin" required></v-textarea>
+                                <v-text-field
+                                    required
+                                    :label="$t('contact_us.name')"
+                                    color="skin"
+                                    v-model="name"
+                                ></v-text-field>
+                                <v-text-field required :label="$t('contact_us.email')" color="skin" v-model="email" ></v-text-field>
+                                <v-text-field required :label="$t('contact_us.phone')" color="skin" v-model="phone" ></v-text-field>
+                                <v-textarea  :label="$t('contact_us.message')" v-model="message" color="skin" ></v-textarea>
                                 <v-btn :loading="loading" color="blueLogo" block size="large" type="submit">{{
                                     $t('contact_us.submit')
                                 }}</v-btn>
@@ -40,23 +45,29 @@
                 </v-container>
             </v-col>
             <v-col cols="12" md="6" :class="['touch', $i18n.locale === 'AR' ? 'ar' : '']">
-                <img src="@/assets/images/landing/contact_circle.svg" alt="" /> 
+                <img src="@/assets/images/landing/contact_circle.svg" alt="" />
                 <div :class="['content', 'pl-16', $i18n.locale === 'AR' ? 'left' : 'right']">
                     <h2>{{ $t('contact_us.get_touch') }}</h2>
                     <span class="separator"></span>
 
                     <v-list>
-                        <v-list-item prepend-icon="mdi-map-marker">{{ $t('contact_us.address') }}</v-list-item>
-                        <v-list-item prepend-icon="mdi-phone">+9991232xxxx, +9991232xxxx</v-list-item>
-                        <v-list-item prepend-icon="mdi-email">QMC.inc@gmail.com</v-list-item>
+                        <v-list-item prepend-icon="mdi-map-marker">{{ address.value }}</v-list-item>
+                        <v-list-item prepend-icon="mdi-phone">{{ mobile.value }}</v-list-item>
+                        <v-list-item prepend-icon="mdi-email">{{ gmail.value }}</v-list-item>
                     </v-list>
                     <div class="social-links text-skin">
-                        <a href="https://wa.me/+201111922571?text=Hello%future!" target="_blank" class="text-green">
-                            <v-btn elevation="0" icon><v-icon>mdi-whatsapp</v-icon></v-btn>
-                        </a>
-                        <a href="https://www.facebook.com/profile.php?id=100090516042333" target="_blank" class="text-green">
-                            <v-btn elevation="0" icon><v-icon>mdi-facebook</v-icon></v-btn>
-                        </a>
+                        <a v-if="whatsapp" :href="`https://wa.me/${whatsapp.value}?text=Hello%20there!`" target="_blank">
+                            <v-btn icon="mdi-whatsapp" elevation="0" class="text-green"></v-btn
+                        ></a>
+                        <a v-if="insta" :href="insta.value" target="_blank">
+                            <v-btn icon="mdi-instagram" elevation="0" class="text-green"></v-btn
+                        ></a>
+                        <a v-if="linkedIn" :href="linkedIn.value" target="_blank">
+                            <v-btn icon="mdi-linkedin" elevation="0" class="text-green"></v-btn
+                        ></a>
+                        <a v-if="twitter" :href="twitter.value" target="_blank">
+                            <v-btn icon="mdi-twitter" elevation="0" class="text-green"></v-btn
+                        ></a>
                     </div>
                 </div>
             </v-col>
@@ -73,6 +84,16 @@ import { computed, onMounted, ref } from 'vue';
 
 import { toast } from 'vue3-toastify';
 import axios from 'axios';
+import { useSettingsStore } from '@/stores/SettingsStore';
+const settingsStore = useSettingsStore();
+
+const address = computed(() => settingsStore.getSettingByKey('address'));
+const mobile = computed(() => settingsStore.getSettingByKey('mobile'));
+const gmail = computed(() => settingsStore.getSettingByKey('email'));
+const whatsapp = computed(() => settingsStore.getSettingByKey('whatsapp'));
+const twitter = computed(() => settingsStore.getSettingByKey('twitter'));
+const insta = computed(() => settingsStore.getSettingByKey('insta'));
+const linkedIn = computed(() => settingsStore.getSettingByKey('linkedIn'));
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -117,6 +138,9 @@ const sendMessage = async () => {
     loading.value = true;
     try {
         const res = await axios.post('api/messages', {
+            name: name.value,
+            email: email.value,
+            mobile: phone.value,
             message: message.value
         });
 
