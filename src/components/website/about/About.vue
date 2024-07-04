@@ -92,32 +92,34 @@ const mission = computed(() => settingsStore.getSettingByKey('mission'));
 const who = computed(() => settingsStore.getSettingByKey('who_are_you'));
 
 onMounted(() => {
-    gsap.utils.toArray('.left').forEach((box) => {
-        gsap.from(box, {
-            x: -100,
-            opacity: 0,
-            duration: 1,
-            scrollTrigger: {
-                trigger: box,
-                start: 'top 80%',
-                end: 'bottom 20%',
-                toggleActions: 'play reverse restart reverse'
-            }
+    setTimeout(() => {
+        gsap.utils.toArray('.left').forEach((box) => {
+            gsap.from(box, {
+                x: -100,
+                opacity: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: box,
+                    start: 'top 80%',
+                    end: 'bottom 20%',
+                    toggleActions: 'play reverse restart reverse'
+                }
+            });
         });
-    });
-    gsap.utils.toArray('.right').forEach((box) => {
-        gsap.from(box, {
-            x: 100,
-            opacity: 0,
-            duration: 1,
-            scrollTrigger: {
-                trigger: box,
-                start: 'top 80%',
-                end: 'bottom 20%',
-                toggleActions: 'play reverse restart reverse'
-            }
+        gsap.utils.toArray('.right').forEach((box) => {
+            gsap.from(box, {
+                x: 100,
+                opacity: 0,
+                duration: 1,
+                scrollTrigger: {
+                    trigger: box,
+                    start: 'top 80%',
+                    end: 'bottom 20%',
+                    toggleActions: 'play reverse restart reverse'
+                }
+            });
         });
-    });
+    }, 500);
 });
 </script>
 

@@ -122,7 +122,6 @@ const loadBlogs = async () => {
         if (res.status == 200) {
             blogs.value = res.data.blogs;
             const pagination = res.data.meta.pagination;
-            console.log(pagination);
             length.value = pagination.last_page;
         } else {
             throw new Error(res.response.data.message);

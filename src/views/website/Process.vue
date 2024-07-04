@@ -97,7 +97,6 @@ onMounted(async () => {
         const res = await axios.get('api/processes');
         if (res.status == 200) {
             processes.value = res.data.processes;
-            console.log(processes.value);
         } else {
             throw new Error(res.response.data.message);
         }

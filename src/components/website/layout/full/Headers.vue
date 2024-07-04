@@ -162,9 +162,9 @@ const services = ref([]);
 
 onMounted(async () => {
     try {
+        axios.defaults.headers.common['Authorization'] = null;
         const res = await axios.get('api/services');
         if (res.status == 200) {
-            console.log(res.data.services);
             services.value = res.data.services;
         } else {
             throw new Error(res.response.data.message);

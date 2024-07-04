@@ -76,7 +76,7 @@ let id = ref('');
 const apiUrl = import.meta.env.VITE_API_URL;
 const headers = ref([
     { text: 'Id', value: 'id', sortable: true },
-    { text: 'Name', value: 'fullName', sortable: true },
+    { text: 'Name', value: 'name', sortable: true },
     { text: 'Email', value: 'email', sortable: true },
     { text: 'Role', value: 'role_name', sortable: true },
     { text: 'Action', value: 'Action' }
