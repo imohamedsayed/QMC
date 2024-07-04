@@ -238,6 +238,31 @@ const MainRoutes = {
             meta: {
                 title: 'Notifications'
             }
+        },
+        {
+            name: 'Admins',
+            path: '/dashboard/admins',
+            component: () => import('@/views/dashboard/admins/Index.vue'),
+            meta: {
+                title: 'Admins'
+            }
+        },
+        {
+            name: 'AddAdmin',
+            path: '/dashboard/admins/add',
+            component: () => import('@/views/dashboard/admins/Create.vue'),
+            meta: {
+                title: 'Add Admin'
+            }
+        },
+        {
+            name: 'EditAdmin',
+            path: '/dashboard/admins/:id/edit',
+            props: true,
+            component: () => import('@/views/dashboard/admins/Edit.vue'),
+            meta: {
+                title: 'Edit Admin'
+            }
         }
     ]
 };

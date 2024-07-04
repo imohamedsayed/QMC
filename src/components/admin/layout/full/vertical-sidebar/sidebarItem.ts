@@ -17,7 +17,9 @@ import {
     IconFilePlus,
     IconHelpOctagon,
     IconHelpHexagonFilled,
-    IconUser
+    IconUser,
+    IconUserShield,
+    IconUserPlus
 } from '@tabler/icons-vue';
 
 export interface menu {
@@ -123,6 +125,17 @@ const sidebarItem: menu[] = [
         title: 'Add FAQ',
         icon: IconHelpOctagon,
         to: '/dashboard/faqs/add'
+    },
+    { header: 'Admins' },
+    {
+        title: 'Admins',
+        icon: IconUserShield,
+        to: '/dashboard/admins'
+    },
+    {
+        title: 'Add Admin',
+        icon: IconUserPlus,
+        to: '/dashboard/admins/add'
     },
     { header: 'Extra' },
     {
