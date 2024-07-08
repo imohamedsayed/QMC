@@ -27,27 +27,26 @@
                                 >
                                 </v-text-field>
                             </v-col>
-                            <v-col cols="12" md="6">
-                                <v-textarea
+                            <v-col cols="12">
+                                <p class="font-weight-bold">Description (English):</p>
+                                <Editor
+                                    api-key="b9xrw95rsgx25qrtsy8d5odilsh4zrk8xumcoonknd54j183"
+                                    :init="init"
+                                    initial-value="Write your blog content."
                                     v-model="state.description_en"
-                                    label="Description (English)"
-                                    variant="outlined"
-                                    color="primary"
-                                    prepend-inner-icon="mdi-text"
-                                    :error-messages="v$.description_en.$error ? v$.description_en.$errors[0].$message : ''"
-                                >
-                                </v-textarea>
+                                />
+                                <p class="text-error" v-if="v$.description_en.$error">{{ v$.description_en.$errors[0].$message }}</p>
                             </v-col>
-                            <v-col cols="12" md="6">
-                                <v-textarea
+                            <v-col cols="12">
+                                <p class="font-weight-bold">Description (Arabic):</p>
+
+                                <Editor
+                                    api-key="b9xrw95rsgx25qrtsy8d5odilsh4zrk8xumcoonknd54j183"
+                                    :init="init"
+                                    initial-value="اكتب محتوى المدونة بالعربي"
                                     v-model="state.description_ar"
-                                    label="Description (Arabic)"
-                                    variant="outlined"
-                                    color="primary"
-                                    prepend-inner-icon="mdi-text"
-                                    :error-messages="v$.description_ar.$error ? v$.description_ar.$errors[0].$message : ''"
-                                >
-                                </v-textarea>
+                                />
+                                <p class="text-error" v-if="v$.description_ar.$error">{{ v$.description_ar.$errors[0].$message }}</p>
                             </v-col>
                             <v-col cols="12" md="6">
                                 <v-file-input
@@ -93,8 +92,9 @@ import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { useAuthStore } from '@/stores/AuthStore';
 import UiParentCard from '@/components/shared/UiParentCard.vue';
+import Editor from '@tinymce/tinymce-vue';
 export default {
-    components: { UiParentCard },
+    components: { UiParentCard, Editor },
     props: ['id'],
     setup(props) {
         const state = reactive({
@@ -189,8 +189,21 @@ export default {
                 return '';
             }
         };
-
-        return { state, getImageUrl, v$, edit, apiUrl };
+        const init = {
+            toolbar_mode: 'sliding',
+            plugins:
+                'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
+            toolbar:
+                'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+            tinycomments_mode: 'embedded',
+            tinycomments_author: useAuthStore().getAdmin.name,
+            mergetags_list: [
+                { value: 'First.Name', title: 'First Name' },
+                { value: 'Email', title: 'Email' }
+            ],
+            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant'))
+        };
+        return { state, getImageUrl, v$, edit, apiUrl, init };
     }
 };
 </script>

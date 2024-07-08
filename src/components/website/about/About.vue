@@ -101,8 +101,8 @@ onMounted(() => {
                 scrollTrigger: {
                     trigger: box,
                     start: 'top 80%',
-                    end: 'bottom 20%',
-                    toggleActions: 'play reverse restart reverse'
+                    end: 'bottom 20%'
+                    // toggleActions: 'play reverse restart reverse'
                 }
             });
         });
@@ -114,8 +114,8 @@ onMounted(() => {
                 scrollTrigger: {
                     trigger: box,
                     start: 'top 80%',
-                    end: 'bottom 20%',
-                    toggleActions: 'play reverse restart reverse'
+                    end: 'bottom 20%'
+                    // toggleActions: 'play reverse restart reverse'
                 }
             });
         });

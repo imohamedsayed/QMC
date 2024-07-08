@@ -26,7 +26,7 @@
                     <v-row v-if="blogs.length">
                         <v-col cols="12" md="6" lg="4" v-for="blog in blogs" :key="blog.id">
                             <v-card class="blog pb-2">
-                                <v-img :src="apiUrl + blog.ImagePath + blog.media?.name" cover>
+                                <v-img :src="apiUrl + blog.ImagePath + blog.media?.name" cover height="300px">
                                     <template v-slot:placeholder>
                                         <div class="d-flex align-center justify-center fill-height">
                                             <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
@@ -36,7 +36,7 @@
                                 <span class="text-skin text-body-2 mx-4 d-block">{{ blog.created_at }}</span>
 
                                 <v-card-title class="text-green font-weight-bold">{{ blog.name }}</v-card-title>
-                                <v-card-text>{{ blog.description.substring(0, 130) + '...' }}</v-card-text>
+                                <!-- <v-card-text>{{ blog.description.substring(0, 130) + '...' }}</v-card-text> -->
                                 <v-btn
                                     elevation="0"
                                     class="mx-4"

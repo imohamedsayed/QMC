@@ -31,10 +31,8 @@
                                 </div>
                             </template>
                         </v-img>
-                        <div class="blog-details mt-10 left">
-                            <p>
-                                {{ blog.description }}
-                            </p>
+                        <div class="blog-details mt-10 left mx-5 mx-md-10">
+                            <div v-html="blog.description"></div>
                         </div>
                     </div>
                 </div>
