@@ -58,8 +58,8 @@
                                                 </template>
                                             </img> -->
                                             <v-card-title class="text-skin font-weight-bold">{{ s.name }}</v-card-title>
-                                            <v-card-text>{{ s.description.substring(0, 120) }}</v-card-text>
-                                            <v-btn elevation="0" class="text-primary">{{ $t('services.learn') }}</v-btn>
+                                            <!-- <v-card-text>{{ s.description.substring(0, 120) }}</v-card-text> -->
+                                            <v-btn elevation="0" class="text-primary" >{{ $t('services.learn') }}</v-btn>
                                         </v-card>
                                     </v-col>
                                 </v-row>

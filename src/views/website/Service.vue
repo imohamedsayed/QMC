@@ -33,9 +33,7 @@
                             />
                             <div class="about-service">
                                 <p class="about mb-10 mt-8 right">{{ $t('services.about') }}</p>
-                                <p class="left">
-                                    {{ service.description }}
-                                </p>
+                                <div class="left px-4" style="line-height: 30px" v-html="service.description"></div>
                             </div>
                         </div>
                         <div v-else class="text-center not-found">

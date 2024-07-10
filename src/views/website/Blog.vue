@@ -24,7 +24,7 @@
                         <span class="animate__animated animate__fadeInUp">{{ blog.created_at }}</span>
                     </div>
                     <div class="blog-img-text">
-                        <v-img class="blog-img right" :src="apiUrl + blog.ImagePath + blog.media?.name" style="max-height: 400px">
+                        <v-img class="blog-img right" :src="apiUrl + blog.ImagePath + blog.media?.name" cover style="max-height: 600px">
                             <template v-slot:placeholder>
                                 <div class="d-flex align-center justify-center fill-height">
                                     <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
@@ -102,7 +102,6 @@ onMounted(async () => {
         const res = await axios.get('api/blogs/' + props.id);
         if (res.status == 200) {
             blog.value = res.data.data;
-            console.log(res.data.data);
         } else {
             throw new Error(res.response.data.message);
         }
