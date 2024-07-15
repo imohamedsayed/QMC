@@ -14,16 +14,17 @@
 </template>
 <script>
 import UiParentCard from '@/components/shared/UiParentCard.vue';
-import { onMounted } from 'vue';
+import { computed, onMounted } from 'vue';
 import { useAuthStore } from '@/stores/AuthStore';
 import { useRouter } from 'vue-router';
 import ClientsList from '@/components/admin/clients/ClientsList.vue';
 export default {
     components: { UiParentCard, ClientsList },
     setup() {
-        const admin = useAuthStore().getAdmin;
+        const admin = computed(() => useAuthStore().getAdmin);
+        console.log(admin.value);
         onMounted(async () => {
-            if (!admin) useRouter().push({ name: 'adminLogin' });
+            if (!admin.value) useRouter().push({ name: 'adminLogin' });
         });
     }
 };

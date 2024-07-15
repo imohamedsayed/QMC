@@ -125,25 +125,24 @@ import RecentTransaction from '@/components/admin/dashboard/RecentTransaction.vu
 import ProductPerformance from '@/components/admin/dashboard/ProductPerformance.vue';
 import ProductCards from '@/components/admin/dashboard/ProductCards.vue';
 
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useAuthStore } from '@/stores/AuthStore';
 import { useRouter } from 'vue-router';
 import { toast } from 'vue3-toastify';
 import axios from 'axios';
 
-const admin = useAuthStore().getAdmin;
+const admin = computed(() => useAuthStore().getAdmin);
 
 const loading = ref(true);
 
 const statistics = ref(null);
 
 onMounted(async () => {
-    if (!admin) useRouter().push({ name: 'adminLogin' });
+    if (!admin.value) useRouter().push({ name: 'adminLogin' });
 
     try {
         const res = await axios.get('api_dashboard/statistics');
         if (res.status == 200) {
-            console.log(res);
             statistics.value = res.data.data;
         } else {
             throw new Error(res.response.data.message);

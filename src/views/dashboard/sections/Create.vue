@@ -48,8 +48,8 @@
                                 />
                                 <p class="text-error" v-if="v$.description_ar.$error">
                                     {{ v$.description_ar.$errors[0].$message }}
-                                </p> </v-col
-                            >>
+                                </p>
+                            </v-col>
                             <v-col cols="12" md="6">
                                 <v-file-input
                                     class="bg-white align-center"
@@ -108,7 +108,6 @@ import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { useAuthStore } from '@/stores/AuthStore';
 import Editor from '@tinymce/tinymce-vue';
-
 import UiParentCard from '@/components/shared/UiParentCard.vue';
 export default {
     components: { UiParentCard, Editor },
@@ -203,11 +202,9 @@ export default {
         const init = {
             toolbar_mode: 'sliding',
             plugins:
-                'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage advtemplate ai mentions tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss markdown',
+                'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist',
             toolbar:
-                'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-            tinycomments_mode: 'embedded',
-            tinycomments_author: useAuthStore().getAdmin.name,
+                'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
             mergetags_list: [
                 { value: 'First.Name', title: 'First Name' },
                 { value: 'Email', title: 'Email' }
