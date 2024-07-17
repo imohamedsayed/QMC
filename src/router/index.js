@@ -10,14 +10,7 @@ export const router = createRouter({
             path: '/:pathMatch(.*)*',
             component: () => import('@/views/pages/Error404.vue')
         },
-        {
-            path: '/payment/success',
-            component: () => import('@/views/website/PaymentSuccess.vue')
-        },
-        {
-            path: '/payment/failed',
-            component: () => import('@/views/website/PaymentFailed.vue')
-        },
+
         DashRoutes,
         AuthRoutes,
         WebsiteRoutes

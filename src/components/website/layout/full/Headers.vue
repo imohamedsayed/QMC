@@ -45,8 +45,8 @@
             </div>
             <div class="navigation d-md-block d-none">
                 <v-list class="d-flex text-blue font-weight-bold header-nav">
-                    <v-list-item value="landing" to="/"> {{ $t('header.home') }} </v-list-item>
-                    <v-list-item value="about" to="/about-us"> {{ $t('header.about') }}</v-list-item>
+                    <v-list-item  to="/"> {{ $t('header.home') }} </v-list-item>
+                    <v-list-item  to="/about-us"> {{ $t('header.about') }}</v-list-item>
                     <v-list-item>
                         <v-menu open-on-hover>
                             <template v-slot:activator="{ props }">
@@ -67,11 +67,11 @@
                             </v-list>
                         </v-menu>
                     </v-list-item>
-                    <v-list-item value="process" to="/our-process"> {{ $t('header.process') }} </v-list-item>
-                    <v-list-item value="clients" to="/our-clients"> {{ $t('header.clients') }}</v-list-item>
-                    <v-list-item value="contact" to="/contact-us"> {{ $t('header.contact') }}</v-list-item>
-                    <v-list-item value="blog" to="/blogs"> {{ $t('header.blog') }}</v-list-item>
-                    <v-list-item value="faq" to="/FAQs"> {{ $t('header.faq') }}</v-list-item>
+                    <v-list-item  to="/our-process"> {{ $t('header.process') }} </v-list-item>
+                    <v-list-item  to="/our-clients"> {{ $t('header.clients') }}</v-list-item>
+                    <v-list-item  to="/contact-us"> {{ $t('header.contact') }}</v-list-item>
+                    <v-list-item  to="/blogs"> {{ $t('header.blog') }}</v-list-item>
+                    <v-list-item  to="/FAQs"> {{ $t('header.faq') }}</v-list-item>
                 </v-list>
             </div>
         </div>
@@ -86,7 +86,7 @@
     >
         <!---Logo part -->
         <div class="d-flex justify-center py-4 text-center cursor-pointer pa-5" @click="$router.push('/')">
-            <img src="@/assets/images/logo.jpeg" width="100" height="80" />
+            <img :src="apiUrl + logo.ImagePath + logo.media?.name" width="100" height="80" />
         </div>
 
         <div>
@@ -169,48 +169,57 @@ onMounted(async () => {
         } else {
             throw new Error(res.response.data.message);
         }
-    } catch (error) {}
+    } catch (error) { }
 });
 </script>
 
 <style lang="scss" scoped>
 .top {
     font-size: 12px;
+
     @media (max-width: 500px) {
         .gmail {
             display: none;
         }
     }
 }
+
 .header {
     background: white;
     padding: relative;
+
     .header-nav {
         @media (max-width: 1070px) {
             font-size: 14px !important;
         }
+
         @media (max-width: 970px) {
             font-size: 10px !important;
         }
     }
+
     .navigation {
         font-size: 17px;
     }
+
     .second-header {
         z-index: 10;
         position: absolute;
         height: 85px;
         border-bottom-right-radius: 25px;
         border-bottom-left-radius: 25px;
+
         img {
             right: 10%;
         }
     }
+
     .btn-icon {
         @media (max-width: 500px) {
             display: none;
         }
     }
+
     .logo-img {
         @media (max-width: 500px) {
             width: 60px;

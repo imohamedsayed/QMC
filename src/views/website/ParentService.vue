@@ -50,16 +50,16 @@
                                 <v-row>
                                     <v-col cols="12" md="4" lg="4" v-for="s in service.sections" :key="s.id">
                                         <v-card class="service right pa-2" @click="$router.push(`/our-services/${service.id}/${s.id}`)">
-                                            <img style="width: 100%; min-height: 400px" :src="apiUrl + s.ImagePath + s.media?.name" />
-                                            <!-- <template v-slot:placeholder>
+                                            <v-img :src="apiUrl + s.ImagePath + s.media?.name" cover height="300px">
+                                                <template v-slot:placeholder>
                                                     <div class="d-flex align-center justify-center fill-height">
-                                                        <v-progress-circular color="grey-lighten-4" indeterminate></v-progress-circular>
+                                                        <v-progress-circular color="green" indeterminate></v-progress-circular>
                                                     </div>
                                                 </template>
-                                            </img> -->
+                                            </v-img>
                                             <v-card-title class="text-skin font-weight-bold">{{ s.name }}</v-card-title>
                                             <!-- <v-card-text>{{ s.description.substring(0, 120) }}</v-card-text> -->
-                                            <v-btn elevation="0" class="text-primary" >{{ $t('services.learn') }}</v-btn>
+                                            <v-btn elevation="0" class="text-primary">{{ $t('services.learn') }}</v-btn>
                                         </v-card>
                                     </v-col>
                                 </v-row>

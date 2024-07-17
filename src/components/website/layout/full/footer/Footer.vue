@@ -44,10 +44,8 @@
         </v-row>
         <div class="text-center mt-4">
             <span style="z-index: 100; position: relative; font-size: 14px"
-                >QMC - All copyrights reserved &copy; 2024<br />
-                Developed by: <a target="_blank" href="https://imohamedsayed.vercel.app/">Eng. Mohamed Sayed</a> ,
-                <a target="_blank" href="https://m7moud-portfolio.netlify.app/">Eng. Mahmoud Khairy</a></span
-            >
+                >QMC &copy; All copyrights reserved  2024
+            </span>
         </div>
     </footer>
 </template>
@@ -77,8 +75,8 @@ const linkedIn = computed(() => settingsStore.getSettingByKey('linkedIn'));
 </script>
 
 <style lang="scss" scoped>
-.contact {
-}
+.contact {}
+
 footer {
     position: relative;
     min-height: 300px;
@@ -90,6 +88,7 @@ footer {
         font-weight: 600;
         color: white;
     }
+
     a {
         text-decoration: none;
         color: #367cb5;

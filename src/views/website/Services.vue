@@ -29,8 +29,13 @@
                                     :prepend-avatar="apiUrl + logo.ImagePath + logo.media?.name"
                                     @click="$router.push('/our-services/' + service.id)"
                                 >
-                                    <img style="width: 100%; max-height: 400px" :src="apiUrl + service.ImagePath + service.media?.name" />
-
+                                    <v-img :src="apiUrl + service.ImagePath + service.media?.name" cover height="300px">
+                                        <template v-slot:placeholder>
+                                            <div class="d-flex align-center justify-center fill-height">
+                                                <v-progress-circular color="green" indeterminate></v-progress-circular>
+                                            </div>
+                                        </template>
+                                    </v-img>
                                     <v-card-title class="text-skin font-weight-bold">{{ service.name }}</v-card-title>
                                     <v-card-text>{{ service.description.substring(0, 120) }}</v-card-text>
                                     <v-btn elevation="0" class="text-primary">{{ $t('services.learn') }}</v-btn>
